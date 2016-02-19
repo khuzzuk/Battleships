@@ -40,7 +40,7 @@ public class BoardTests {
     }
 
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp() {
         board = new Board();
     }
 }
