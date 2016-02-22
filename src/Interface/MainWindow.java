@@ -1,5 +1,6 @@
 package Interface;
 
+import Interface.buttons.BattleshipButton;
 import Interface.buttons.FieldButtonEmpty;
 import Interface.buttons.ShipButton;
 import gameLogic.Board;
@@ -13,12 +14,14 @@ import java.awt.event.*;
  * Created by Adrian on 19.02.2016.
  */
 public class MainWindow extends JFrame {
+    public static MainWindow mainWindow;
     private Dimension boardSize;
     private FieldButtonEmpty[][] buttons;
     private Dimension windowSize;
     private JPanel panel;
     public MainWindow() {
         super();
+        mainWindow = this;
         closingDefinition();
         boardSize = Board.boardDimension;
         windowSize = new Dimension(boardSize.width*20+200, boardSize.height*20+40);
@@ -29,7 +32,7 @@ public class MainWindow extends JFrame {
     }
 
     private void addShip() {
-        ShipButton button = new ShipButton(new Point(220,10));
+        BattleshipButton button = new BattleshipButton(new Point(220,10));
 
         button.addMouseListener(new MouseInputAdapter() {
             @Override
