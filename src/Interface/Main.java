@@ -1,8 +1,6 @@
 package Interface;
 
 
-import javax.swing.*;
-
 /**
  * Created by Adrian on 19.02.2016.
  */

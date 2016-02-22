@@ -1,4 +1,4 @@
-package Interface;
+package Interface.buttons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +16,10 @@ public class FieldButtonEmpty extends JButton {
 
     private FieldButtonEmpty() {}
     public FieldButtonEmpty(Point position) {
+        setOpaque(true);
         this.position=position;
         setBounds(new Rectangle(position, fieldSize));
         rectangle = new Rectangle(0, 0, fieldSize.width, fieldSize.height);
-        //rectangle = new Rectangle(position, fieldSize);
         setPreferredSize(fieldSize);
     }
 

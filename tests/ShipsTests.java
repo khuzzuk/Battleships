@@ -1,5 +1,5 @@
-import GameLogic.Ship;
-import GameLogic.ShipType;
+import gameLogic.Ship;
+import gameLogic.ShipType;
 import org.testng.annotations.Test;
 
 /**

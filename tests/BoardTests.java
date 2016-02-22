@@ -1,9 +1,7 @@
-import GameLogic.Board;
+import gameLogic.Board;
 import static org.assertj.core.api.Assertions.*;
 
-import GameLogic.Field;
-import GameLogic.Mark;
-import GameLogic.Player;
+import gameLogic.Mark;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
