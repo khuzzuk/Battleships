@@ -27,10 +27,13 @@ public class MovingButtonAdapter extends MouseInputAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
         Point point = MainWindow.mainWindow.getNearestFieldLocation(e.getLocationOnScreen());
-        point.x-=button.getShipSize().width;
-        point.y-=button.getShipSize().height- PlaceableItem.ITEM_SIZE;
-        if (point!=null) button.placeOnBoard(point);
-        else button.relocate(e);
+        if (point==null){
+            button.relocate(e);
+        } else{
+            point.x-=button.getShipSize().width;
+            point.y-=button.getShipSize().height- PlaceableItem.ITEM_SIZE;
+            button.placeOnBoard(point);
+        }
     }
 
     @Override

@@ -6,15 +6,18 @@ import Interface.Orientation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by adrabik on 22.02.16.
  */
 public class ShipButton extends JButton implements PlaceableItem {
-    protected Point position = new Point(220,10);
+    protected Point position;
     protected Dimension shipSize = new Dimension(150,100);
     protected Rectangle rectangle;
     protected Orientation orientation;
+    protected BufferedImage image;
 
     public ShipButton(Point point) {
         orientation = Orientation.HORIZONTAL;
@@ -39,7 +42,7 @@ public class ShipButton extends JButton implements PlaceableItem {
         Point relativePoint = e.getPoint();
         int windowX = MainWindow.mainWindow.getX();
         int windowY = MainWindow.mainWindow.getY();
-        Point location = new Point(onScreen.x-shipSize.width/2-windowX,onScreen.y-shipSize.height/2-windowY);
+        Point location = new Point(onScreen.x-shipSize.width/2-windowX-10,onScreen.y-shipSize.height/2-30-windowY);
         relocate(location);
     }
     public void changeOrientation(){
@@ -70,9 +73,22 @@ public class ShipButton extends JButton implements PlaceableItem {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = setRendering(g);
-        if (getMousePosition()!=null) g2.setColor(Color.BLUE);
-        else g2.setColor(Color.black);
+        g2.setColor(Color.white);
         g2.fill(rectangle);
+        g2.setColor(Color.black);
+        g2.draw(rectangle);
+        if (orientation==Orientation.VERTICAL) {
+            AffineTransform affineTransform = new AffineTransform();
+            double rotate = Math.toRadians(90);
+            int rotateX = shipSize.width/2;
+            int rotateY = shipSize.height/8;
+            affineTransform.rotate(rotate,rotateX,rotateY);
+            g2.setTransform(affineTransform);
+            g2.drawImage(image,0,1,shipSize.height-1,shipSize.width-1,null);
+            repaint();
+        } else{
+            g2.drawImage(image,0,0,shipSize.width-1,shipSize.height-1,null);
+        }
     }
 
     protected Graphics2D setRendering(Graphics g) {

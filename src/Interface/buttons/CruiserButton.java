@@ -12,15 +12,15 @@ import java.io.IOException;
 /**
  * Created by adrabik on 22.02.16.
  */
-public class BattleshipButton extends ShipButton {
-    public BattleshipButton(Point point) {
+public class CruiserButton extends ShipButton {
+    public CruiserButton(Point point) {
         super(point);
         try {
-            image = ImageIO.read(new File(getClass().getClassLoader().getResource("BB.png").getFile()));
+            image = ImageIO.read(new File(getClass().getClassLoader().getResource("CA.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *4+1, PlaceableItem.ITEM_SIZE+1);
+        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *3+1, PlaceableItem.ITEM_SIZE+1);
         relocate(position);
     }
 }
