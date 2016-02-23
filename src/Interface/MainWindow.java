@@ -1,7 +1,9 @@
 package Interface;
 
+import Interface.Listeners.MovingButtonAdapter;
 import Interface.buttons.BattleshipButton;
 import Interface.buttons.FieldButtonEmpty;
+import Interface.buttons.PlaceableItem;
 import Interface.buttons.ShipButton;
 import gameLogic.Board;
 
@@ -24,7 +26,7 @@ public class MainWindow extends JFrame {
         mainWindow = this;
         closingDefinition();
         boardSize = Board.boardDimension;
-        windowSize = new Dimension(boardSize.width*20+200, boardSize.height*20+40);
+        windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+200, boardSize.height*PlaceableItem.ITEM_SIZE+40);
         preparePanel();
         addShip();
         addFields();
@@ -32,20 +34,11 @@ public class MainWindow extends JFrame {
     }
 
     private void addShip() {
-        BattleshipButton button = new BattleshipButton(new Point(220,10));
+        BattleshipButton button = new BattleshipButton(new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE));
 
-        button.addMouseListener(new MouseInputAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                button.relocate(e);
-            }
-        });
-        button.addMouseMotionListener(new MouseInputAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                button.relocate(e);
-            }
-        });
+        button.addMouseListener(new MovingButtonAdapter(button));
+        button.addMouseMotionListener(new MovingButtonAdapter(button));
+        button.addMouseWheelListener(new MovingButtonAdapter(button));
 
         panel.add(button);
     }
@@ -73,5 +66,22 @@ public class MainWindow extends JFrame {
                 System.exit(0);
             }
         });
+    }
+
+    public Point getNearestFieldLocation(Point point){
+        int buttonX;
+        int buttonY;
+        for (int x = 0; x < buttons.length; x++) {
+            buttonX=buttons[x][0].getBounds().x;
+            if (Math.abs(point.x-buttonX)<PlaceableItem.ITEM_SIZE){
+                for (int y = 0; y < buttons[x].length; y++) {
+                    buttonY=buttons[x][0].getBounds().y;
+                    if (Math.abs(point.y-buttons[x][y].getY())<PlaceableItem.ITEM_SIZE){
+                        return buttons[x][y].getLocation();
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

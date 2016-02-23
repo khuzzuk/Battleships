@@ -1,12 +1,10 @@
 package Interface.buttons;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Created by adrabik on 22.02.16.
@@ -20,7 +18,7 @@ public class BattleshipButton extends ShipButton {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        shipSize = new Dimension(rectangleSize*4,rectangleSize);
+        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *4, PlaceableItem.ITEM_SIZE);
         relocate(position);
     }
 

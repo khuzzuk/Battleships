@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class FieldButtonEmpty extends JButton {
+public class FieldButtonEmpty extends JButton implements PlaceableItem {
     protected Point position;
     protected static Color backgroundColor = Color.WHITE;
     protected static Color borderColor = Color.BLACK;

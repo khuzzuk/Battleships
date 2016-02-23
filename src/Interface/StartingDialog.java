@@ -24,13 +24,10 @@ public class StartingDialog extends JDialog {
 
     private void addTextField(JPanel panel, GridBagConstraints constr) {
         textField = new JFormattedTextField(NumberFormat.getNumberInstance());
-        textField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(textField.getValue().toString());
-                dispose();
-                //Main.startGame();
-            }
+        textField.addActionListener(e -> {
+            System.out.println(textField.getValue().toString());
+            dispose();
+            //Main.startGame();
         });
         constr.gridy=2;
         panel.add(textField,constr);

@@ -1,6 +1,7 @@
 package Interface.buttons;
 
 import Interface.MainWindow;
+import Interface.Orientation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +10,14 @@ import java.awt.event.MouseEvent;
 /**
  * Created by adrabik on 22.02.16.
  */
-public class ShipButton extends JButton {
-    protected static final int rectangleSize = 20;
+public class ShipButton extends JButton implements PlaceableItem {
     protected Point position = new Point(220,10);
     protected Dimension shipSize = new Dimension(150,100);
     protected Rectangle rectangle;
+    protected Orientation orientation;
 
     public ShipButton(Point point) {
+        orientation = Orientation.HORIZONTAL;
         setOpaque(true);
         position=point;
         relocate(position);
@@ -27,19 +29,42 @@ public class ShipButton extends JButton {
     }
 
     public void relocate(Point point) {
-        int windowX = MainWindow.mainWindow.getX();
-        int windowY = MainWindow.mainWindow.getY();
-        position=new Point(point.x-windowX+shipSize.width/2, point.y-windowY+shipSize.height/2);
+        position=point;
         setBounds(new Rectangle(position,shipSize));
-        //setBounds(0,0,300,300);
         setPreferredSize(shipSize);
         rectangle = new Rectangle(0,0,shipSize.width-1,shipSize.height-1);
     }
     public void relocate(MouseEvent e){
         Point onScreen = e.getLocationOnScreen();
         Point relativePoint = e.getPoint();
-        Point location = new Point(onScreen.x-shipSize.width,onScreen.y-shipSize.height);
+        int windowX = MainWindow.mainWindow.getX();
+        int windowY = MainWindow.mainWindow.getY();
+        Point location = new Point(onScreen.x-shipSize.width/2-windowX,onScreen.y-shipSize.height/2-windowY);
         relocate(location);
+    }
+    public void changeOrientation(){
+        if (orientation==Orientation.HORIZONTAL) {
+            orientation=Orientation.VERTICAL;
+            position.x+=shipSize.width/3;
+            position.y-=shipSize.height;
+        }
+        else {
+            orientation=Orientation.HORIZONTAL;
+            position.x-=shipSize.width;
+            position.y+=shipSize.height/4;
+        }
+        int x = shipSize.width;
+        shipSize.width=shipSize.height;
+        shipSize.height=x;
+        relocate(position);
+    }
+
+    public void placeOnBoard(Point point){
+        relocate(point);
+    }
+
+    public Dimension getShipSize() {
+        return new Dimension(shipSize.width,shipSize.width);
     }
 
     @Override
