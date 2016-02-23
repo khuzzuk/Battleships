@@ -4,11 +4,9 @@ import Interface.Listeners.MovingButtonAdapter;
 import Interface.buttons.BattleshipButton;
 import Interface.buttons.FieldButtonEmpty;
 import Interface.buttons.PlaceableItem;
-import Interface.buttons.ShipButton;
-import gameLogic.Board;
+import game.Board;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 

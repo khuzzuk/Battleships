@@ -1,7 +1,10 @@
 package Interface.buttons;
 
+import Interface.Orientation;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +30,12 @@ public class BattleshipButton extends ShipButton {
         Graphics2D g2 = setRendering(g);
         g2.drawImage(image,0,0,shipSize.width-1,shipSize.height-1,null);
         g2.setColor(Color.black);
-        g2.draw(rectangle);
+        if (orientation== Orientation.HORIZONTAL) g2.draw(rectangle);
+        else{
+            AffineTransform affineTransform = new AffineTransform();
+            affineTransform.rotate(Math.toRadians(90));
+            g2.setTransform(affineTransform);
+            g2.drawImage(image,0,0,shipSize.width-1,shipSize.height-1,null);
+        }
     }
 }
