@@ -5,13 +5,13 @@ import java.util.ArrayList;
 /**
  * Created by adrabik on 19.02.16.
  */
-public class Ship {
-    ShipType type;
-    ArrayList<Field> fields;
+public class Ship implements PlaceableOnBoard {
+    private ShipType type;
+    private ShipFieldsList fields;
 
     public Ship(ShipType type) {
+        fields = new ShipFieldsList(type.shipLength);
         this.type = type;
-        fields = new ArrayList<>(type.shipLength);
     }
     public void addFieldsFromBoard(Field... shipFields) throws IllegalArgumentException {
         if (shipFields.length==type.shipLength){
@@ -20,7 +20,17 @@ public class Ship {
                 f.markShip();
             }
         }
-        else throw new IllegalArgumentException("Expected ship fields was "+shipFields.length+". Type should have "+type.ordinal()+" fields.");
+        else throw new IllegalArgumentException("Ship has "+shipFields.length+" fields. This type should have "+type.ordinal()+" fields.");
+    }
+
+    public boolean canBePlacedWith(PlaceableOnBoard otherShip){
+        Ship toCompare = (Ship) otherShip;
+        return fields.canBePlacedWith(toCompare.fields);
+    }
+
+    public boolean isPlacedOnBoard(){
+        if (fields.size()>0) return true;
+        return false;
     }
 
     @Override
@@ -31,6 +41,7 @@ public class Ship {
         Ship ship = (Ship) o;
 
         if (type != ship.type) return false;
+        if (fields.size()==0 && ship.fields.size()==0) return true;
         return fields != null ? fields.equals(ship.fields) : ship.fields == null;
 
     }
@@ -40,5 +51,9 @@ public class Ship {
         int result = type != null ? type.hashCode() : 0;
         result = 31 * result + (fields != null ? fields.hashCode() : 0);
         return result;
+    }
+
+    public void clearFields() {
+        fields = new ShipFieldsList(type.shipLength);
     }
 }

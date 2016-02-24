@@ -21,7 +21,7 @@ public class MainWindow extends JFrame {
         super();
         mainWindow = this;
         closingDefinition();
-        boardSize = Board.boardDimension;
+        boardSize = new Dimension(10,10);
         windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+200, boardSize.height*PlaceableItem.ITEM_SIZE+40);
         preparePanel();
         addShip();

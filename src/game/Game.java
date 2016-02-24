@@ -20,4 +20,14 @@ public class Game {
         return this;
     }
 
+
+    public Game placeShipPlayerOne(Ship ship, Field... fields) {
+        playerOne.placeShip(ship,fields);
+        return this;
+    }
+
+    public Game print() {
+        System.out.println(playerOne.board);
+        return this;
+    }
 }

@@ -24,7 +24,7 @@ public class BoardTests {
         //given
         int oneHundred=100;
         //when
-        int boardFieldsNumber = board.fieldsList.length;
+        int boardFieldsNumber = board.fieldsList.size();
         //then
         assertThat(boardFieldsNumber).isEqualTo(oneHundred);
     }
@@ -33,7 +33,7 @@ public class BoardTests {
         //given
         Point expectedCoordinates = new Point(1,1);
         //when
-        Point fieldCoordinates = board.fieldsList[11].position;
+        Point fieldCoordinates = board.fieldsList.get(new Field(1,1)).position;
         //then
         assertThat(fieldCoordinates).isEqualTo(expectedCoordinates);
     }
@@ -42,7 +42,7 @@ public class BoardTests {
         //given
         Point expectedCoordinates = new Point(7,8);
         //when
-        Point fieldCoordinates = board.fieldsList[8*10+7].position;
+        Point fieldCoordinates = board.fieldsList.get(new Field(7,8)).position;
         //then
         assertThat(fieldCoordinates).isEqualTo(expectedCoordinates);
     }
@@ -52,7 +52,7 @@ public class BoardTests {
         //given
         Sign emptySign = Sign.EMPTY;
         //when
-        Sign sign = board.fieldsList[1].sign;
+        Sign sign = board.fieldsList.get(new Field(1,1)).sign;
         //then
         assertThat(sign).isEqualTo(emptySign);
     }
