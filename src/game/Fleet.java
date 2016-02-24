@@ -13,14 +13,13 @@ public class Fleet {
         }
     }
     public boolean placeShip(Ship ship, Field... shipFields){
-        if (canBePlacedOnBoard(ship, shipFields)){
             for (int x=0; x<shipsList.size(); x++) {
                 if (shipsList.get(x).equals(ship)){
+                    assignFields(ship, shipFields);
                     shipsList.set(x, ship);
                     return true;
                 }
             }
-        }
         return false;
     }
     public boolean canBePlacedOnBoard(Ship ship, Field... fields){

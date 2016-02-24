@@ -9,7 +9,7 @@ public class Skeleton {
         game.start()
             .placeShipPlayerOne(new Ship(ShipType.SS), new Field(1,1))
             .print()
-            .placeShipPlayerOne(new Ship(ShipType.DD), new Field(1, 1), new Field(1,2))
+            .placeShipPlayerOne(new Ship(ShipType.DD), new Field(2, 2), new Field(1,2))
             .print();
     }
 }

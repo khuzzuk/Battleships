@@ -19,8 +19,8 @@ public class Player {
     }
 
     public boolean placeShip(Ship ship, Field... fields) {
-        Field[] fromFieldsList = new Field[fields.length];
         if (fleet.canBePlacedOnBoard(ship,fields)) {
+            Field[] fromFieldsList = new Field[fields.length];
             for (int i = 0; i < fields.length; i++) {
                 fromFieldsList[i] = board.fieldsList.get(fields[i]);
             }
