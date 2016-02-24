@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
  */
 public abstract class ShipButton extends JButton implements PlaceableItem {
     protected Point position;
+    protected Point originalPosition;
     protected Dimension shipSize = new Dimension(150,100);
     protected Rectangle rectangle;
     protected Orientation orientation;
@@ -22,7 +23,7 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     public ShipButton(Point point) {
         orientation = Orientation.HORIZONTAL;
         setOpaque(true);
-        position=point;
+        originalPosition=position=point;
         relocate(position);
         loadImage();
     }
@@ -64,13 +65,16 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
         shipSize.height=x;
         relocate(position);
     }
+    public void returnToOriginalPosition(){
+        relocate(originalPosition);
+    }
 
     public void placeOnBoard(Point point){
         relocate(point);
     }
 
     public Dimension getShipSize() {
-        return new Dimension(shipSize.width,shipSize.width);
+        return new Dimension(shipSize.width,shipSize.height);
     }
 
     public Point getPosition() {

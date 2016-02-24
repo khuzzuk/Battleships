@@ -77,20 +77,26 @@ public class MainWindow extends JFrame {
         });
     }
 
-    public Point getNearestFieldLocation(Point point){
+    public Point getNearestFieldLocation(Point point, Dimension size){
         int buttonX;
         int buttonY;
         for (int x = 0; x < buttons.length; x++) {
             buttonX=buttons[x][0].getBounds().x;
-            if (Math.abs(point.x-buttonX)<PlaceableItem.ITEM_SIZE){
+            if (Math.abs(buttonX-point.x)<PlaceableItem.ITEM_SIZE && isInBoardRange(size.width,x)){
                 for (int y = 0; y < buttons[x].length; y++) {
                     buttonY=buttons[x][y].getBounds().y;
-                    if (Math.abs(point.y-buttonY)<PlaceableItem.ITEM_SIZE){
+                    if (Math.abs(point.y-buttonY)<PlaceableItem.ITEM_SIZE && isInBoardRange(size.height,y)){
                         return buttons[x][y].getLocation();
                     }
                 }
             }
         }
         return null;
+    }
+
+    private boolean isInBoardRange(int counterWidth, int fieldPosition) {
+        int counterMaxPosition = (counterWidth/2+1)/PlaceableItem.ITEM_SIZE;
+        if (counterMaxPosition<=fieldPosition) return true;
+        return false;
     }
 }
