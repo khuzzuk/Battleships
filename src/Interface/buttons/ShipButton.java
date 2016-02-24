@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by adrabik on 22.02.16.
  */
-public class ShipButton extends JButton implements PlaceableItem {
+public abstract class ShipButton extends JButton implements PlaceableItem {
     protected Point position;
     protected Dimension shipSize = new Dimension(150,100);
     protected Rectangle rectangle;
@@ -24,7 +24,10 @@ public class ShipButton extends JButton implements PlaceableItem {
         setOpaque(true);
         position=point;
         relocate(position);
+        loadImage();
     }
+
+    protected abstract void loadImage();
 
     @Override
     public boolean contains(int x, int y) {
@@ -70,6 +73,10 @@ public class ShipButton extends JButton implements PlaceableItem {
         return new Dimension(shipSize.width,shipSize.width);
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = setRendering(g);
@@ -78,17 +85,24 @@ public class ShipButton extends JButton implements PlaceableItem {
         g2.setColor(Color.black);
         g2.draw(rectangle);
         if (orientation==Orientation.VERTICAL) {
-            AffineTransform affineTransform = new AffineTransform();
-            double rotate = Math.toRadians(90);
-            int rotateX = shipSize.width/2;
-            int rotateY = shipSize.height/8;
-            affineTransform.rotate(rotate,rotateX,rotateY);
-            g2.setTransform(affineTransform);
-            g2.drawImage(image,0,1,shipSize.height-1,shipSize.width-1,null);
-            repaint();
+            drawRotatedIcon(g2);
         } else{
             g2.drawImage(image,0,0,shipSize.width-1,shipSize.height-1,null);
         }
+    }
+
+    private void drawRotatedIcon(Graphics2D g2) {
+
+        AffineTransform affineTransform = new AffineTransform();
+        double rotate = Math.toRadians(90);
+        int shipWidth = (shipSize.width+1)/PlaceableItem.ITEM_SIZE*2;
+        int shipHeight = (shipSize.height+1)/PlaceableItem.ITEM_SIZE*2;
+        int rotateX = shipSize.height/shipHeight;
+        int rotateY = shipSize.width/shipWidth;
+        affineTransform.rotate(rotate,rotateX,rotateY);
+        g2.setTransform(affineTransform);
+        g2.drawImage(image,0,1,shipSize.height-1,shipSize.width-1,null);
+        repaint();
     }
 
     protected Graphics2D setRendering(Graphics g) {

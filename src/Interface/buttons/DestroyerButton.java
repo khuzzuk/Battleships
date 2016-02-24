@@ -11,12 +11,16 @@ import java.io.IOException;
 public class DestroyerButton extends ShipButton {
     public DestroyerButton(Point point) {
         super(point);
+        loadImage();
+        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *2+1, PlaceableItem.ITEM_SIZE+1);
+        relocate(position);
+    }
+
+    protected void loadImage() {
         try {
             image = ImageIO.read(new File(getClass().getClassLoader().getResource("DD.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *2+1, PlaceableItem.ITEM_SIZE+1);
-        relocate(position);
     }
 }

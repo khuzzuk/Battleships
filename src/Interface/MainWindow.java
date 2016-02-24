@@ -84,7 +84,7 @@ public class MainWindow extends JFrame {
             buttonX=buttons[x][0].getBounds().x;
             if (Math.abs(point.x-buttonX)<PlaceableItem.ITEM_SIZE){
                 for (int y = 0; y < buttons[x].length; y++) {
-                    buttonY=buttons[x][0].getBounds().y;
+                    buttonY=buttons[x][y].getBounds().y;
                     if (Math.abs(point.y-buttonY)<PlaceableItem.ITEM_SIZE){
                         return buttons[x][y].getLocation();
                     }

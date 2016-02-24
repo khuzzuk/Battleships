@@ -26,7 +26,7 @@ public class MovingButtonAdapter extends MouseInputAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Point point = MainWindow.mainWindow.getNearestFieldLocation(e.getLocationOnScreen());
+        Point point = MainWindow.mainWindow.getNearestFieldLocation(button.getBounds().getLocation());
         if (point==null){
             button.relocate(e);
         } else{
