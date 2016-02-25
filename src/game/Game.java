@@ -26,9 +26,8 @@ public class Game {
     }
 
 
-    public Game placeShipPlayerOne(Ship ship, Field... fields) {
-        playerOne.placeShip(ship,fields);
-        return this;
+    public boolean placeShipPlayerOne(Ship ship, Field... fields) {
+        return playerOne.placeShip(ship,fields);
     }
 
     public Game print() {

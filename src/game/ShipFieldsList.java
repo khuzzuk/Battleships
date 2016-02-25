@@ -1,14 +1,13 @@
 package game;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class ShipFieldsList implements PlaceableOnBoard {
     private Set<Field> fields;
 
     public ShipFieldsList(int shipLength) {
-        fields = new TreeSet<>();
+        fields = new HashSet<>();
     }
     public void add(Field field){
         fields.add(field);

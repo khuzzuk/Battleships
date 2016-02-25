@@ -8,6 +8,11 @@ import game.Game;
 public class SkeletonSwing {
     public static void main(String[] args) {
         Game game = new Game(new BoardSize(10));
-        MainWindow mainWindow = new MainWindow(game);
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MainWindow mainWindow = new MainWindow(game);
+            }
+        });
     }
 }

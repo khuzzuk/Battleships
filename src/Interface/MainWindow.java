@@ -100,7 +100,13 @@ public class MainWindow extends JFrame {
         for (int i = 0; i < points.length; i++) {
             fields[i] = new Field(points[i].x, points[i].y);
         }
-        game.placeShipPlayerOne(ship, fields);
-        showNextShip();
+        if (game.placeShipPlayerOne(ship, fields)){
+            showNextShip();
+        }
+        else {
+            ShipButton b = (ShipButton) panel.getComponent(0);
+            b.returnToOriginalPosition();
+            b.setEnabled(true);
+        }
     }
 }

@@ -40,8 +40,8 @@ public class MovingButtonAdapter extends MouseInputAdapter {
         if (fieldPoint==null){
             button.returnToOriginalPosition();
         } else{
-            button.placeOnBoard(fieldPoint);
             button.setEnabled(false);
+            button.placeOnBoard(fieldPoint);
             MainWindow.mainWindow.repaint();
             MainWindow.mainWindow.revalidate();
         }

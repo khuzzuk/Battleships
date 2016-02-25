@@ -84,15 +84,16 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
         shipSize.height=x;
         relocate(position);
     }
-    public void returnToOriginalPosition(){
+    public ShipButton returnToOriginalPosition(){
         relocate(originalPosition);
+        return this;
     }
 
     public void placeOnBoard(Point point){
         int numberOfShipFields = (int) Math.max((shipSize.getWidth()-1)/PlaceableItem.ITEM_SIZE,
                 (shipSize.getHeight()-1)/PlaceableItem.ITEM_SIZE);
         pointsOnBoard = new Point[numberOfShipFields];
-        pointsOnBoard[0] = new Point(point.x/PlaceableItem.ITEM_SIZE, point.y/PlaceableItem.ITEM_SIZE);
+        pointsOnBoard[0] = new Point(point.x/PlaceableItem.ITEM_SIZE-1, point.y/PlaceableItem.ITEM_SIZE);
         for (int x = 1; x < pointsOnBoard.length; x++) {
             if (orientation==Orientation.HORIZONTAL){
                 pointsOnBoard[x] = new Point(pointsOnBoard[x-1].x+1, pointsOnBoard[x-1].y);
