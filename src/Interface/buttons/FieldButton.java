@@ -1,5 +1,6 @@
-package Interface;
+package Interface.buttons;
 
+import Interface.RenderingOptions;
 import Interface.buttons.PlaceableItem;
 import game.Field;
 import game.Sign;
@@ -54,7 +55,7 @@ public class FieldButton extends JButton implements RenderingOptions {
             g2.fill(rectangle);
             g2.setColor(Color.BLACK);
             g2.draw(rectangle);
-            int size = PlaceableItem.ITEM_SIZE/4;
+            int size = PlaceableItem.ITEM_SIZE/2;
             g2.fill(new Ellipse2D.Float(size,size,size,size));
         }
     }

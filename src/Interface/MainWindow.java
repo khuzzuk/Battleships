@@ -89,8 +89,8 @@ public abstract class MainWindow extends JFrame {
     }
 
     private boolean isInBoardRange(int counterWidth, int fieldPosition) {
-        int counterMaxPosition = (counterWidth/2+1)/PlaceableItem.ITEM_SIZE;
-        if (counterMaxPosition<=fieldPosition) return true;
+        int counterMaxPosition = counterWidth/PlaceableItem.ITEM_SIZE;
+        if (counterMaxPosition+fieldPosition<=boardSize.width) return true;
         return false;
     }
 

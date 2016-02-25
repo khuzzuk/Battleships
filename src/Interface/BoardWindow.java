@@ -1,7 +1,7 @@
 package Interface;
 
 import Interface.Listeners.ShootListener;
-import Interface.buttons.FieldButtonEmpty;
+import Interface.buttons.FieldButton;
 import Interface.buttons.PlaceableItem;
 import game.*;
 
