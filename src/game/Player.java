@@ -3,9 +3,6 @@ package game;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Created by Adrian on 18.02.2016.
- */
 public class Player {
     Board board;
     Fleet fleet;
@@ -15,8 +12,7 @@ public class Player {
         fleet = new Fleet(ships);
     }
     public boolean hasPlacedAllShipsOnBoard(){
-        if (fleet.getFirstFree()==null) return true;
-        return false;
+        return fleet.getFirstFree()==null;
     }
 
     public boolean placeShip(Ship ship, Field... fields) {
@@ -31,6 +27,6 @@ public class Player {
     }
 
     public boolean shoot(Point point) {
-        return Shoot.shoot(point, board);
+        return Shoot.shoot(point, board, fleet);
     }
 }

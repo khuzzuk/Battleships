@@ -2,9 +2,6 @@ import game.*;
 
 import java.awt.*;
 
-/**
- * Created by adrabik on 23.02.16.
- */
 public class Skeleton {
     public static void main(String[] args) {
         Game game = new Game(new BoardSize(10));
@@ -20,6 +17,8 @@ public class Skeleton {
             .print()
             .shootOnPlayerOneBoard(new Point(1,1))
             .shootOnPlayerOneBoard(new Point(1,5))
+            .shootOnPlayerOneBoard(new Point(2,2))
+            .shootOnPlayerOneBoard(new Point(1,2))
             .print();
     }
 }

@@ -4,9 +4,6 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by adrabik on 25.02.16.
- */
 public class ShipTests {
     @Test
     public static void testPlaceShipOnOtherShip() {
@@ -32,5 +29,32 @@ public class ShipTests {
         boolean canBePlaced = firstShip.canBePlacedWith(secondShip);
         //then
         assertThat(canBePlaced).isTrue();
+    }
+
+    @Test
+    public void testsReducedShipSize() {
+        //given
+        int expectedLengthOfThree = 3;
+        Ship ship = new Ship(ShipType.BB);
+        ship.addFieldsFromBoard(new Field(1,1), new Field(1,2), new Field(1,3), new Field(1,4));
+        ship.removeField(new Field(1,1));
+        //when
+        int actualShipLength = ship.currentSize();
+        //then
+        assertThat(expectedLengthOfThree).isEqualTo(actualShipLength);
+    }
+    @Test
+    public void testsDestroyingShip() {
+        //given
+        Ship ship = new Ship(ShipType.BB);
+        ship.addFieldsFromBoard(new Field(1,1), new Field(1,2), new Field(1,3), new Field(1,4));
+        ship.removeField(new Field(1,1));
+        ship.removeField(new Field(1,2));
+        ship.removeField(new Field(1,3));
+        ship.removeField(new Field(1,4));
+        //when
+        boolean shipDestroyed = ship.isDestroyed();
+        //then
+        assertThat(shipDestroyed).isTrue();
     }
 }

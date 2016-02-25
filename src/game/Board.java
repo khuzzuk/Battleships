@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-/**
- * Created by adrabik on 22.02.16.
- */
 public class Board {
     public Dimension boardDimension;
     final FieldsList fieldsList;
@@ -52,6 +49,6 @@ public class Board {
     }
 
     public boolean miss(Field field) {
-        return fieldsList.get(field).markHit();
+        return fieldsList.get(field).markMiss();
     }
 }

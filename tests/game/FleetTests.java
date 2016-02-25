@@ -3,21 +3,29 @@ package game;
 import static org.assertj.core.api.Assertions.*;
 import org.testng.annotations.Test;
 
-/**
- * Created by adrabik on 23.02.16.
- */
 public class FleetTests {
     @Test
-    public void testPlaceShipsOnBoard() {
+    public void testsShipsStartingNumberOnFleet() {
         //given
-        Player player = new Player(new BoardSize(10));
-        Ship ship = new Ship(ShipType.SS);
-        Field field = player.board.fieldsList.get(new Field(4,2));
-        player.placeShip(ship,field);
-        Sign expectedSign = Sign.SHIP;
+        Fleet fleet = new Fleet(ShipPlacement.startingShipList());
+        int expectedFleetSize = 10;
         //when
-        Sign signOnBoard = player.board.fieldsList.get(new Field(4,2)).sign;
+        int actualSize = fleet.numberOfShips();
         //then
-        assertThat(expectedSign).isEqualTo(signOnBoard);
+        assertThat(expectedFleetSize).isEqualTo(actualSize);
+    }
+
+    @Test
+    public void testsRemovingShipFromFleet() {
+        //given
+        Fleet fleet = new Fleet(ShipPlacement.startingShipList());
+        Ship ship = new Ship(ShipType.SS);
+        fleet.placeShip(ship, new Field(1,1));
+        fleet.shootShip(new Field(1,1));
+        int expectedFleetSize = 9;
+        //when
+        int actualSize = fleet.numberOfShips();
+        //then
+        assertThat(expectedFleetSize).isEqualTo(actualSize);
     }
 }

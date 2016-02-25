@@ -4,9 +4,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-/**
- * Created by adrabik on 24.02.16.
- */
 public class ShipFieldsList implements PlaceableOnBoard {
     private Set<Field> fields;
 
@@ -27,11 +24,18 @@ public class ShipFieldsList implements PlaceableOnBoard {
 
     @Override
     public boolean isPlacedOnBoard() {
-        if (fields.isEmpty()) return false;
-        return true;
+        return !fields.isEmpty();
     }
 
     public int size() {
         return fields.size();
+    }
+
+    public boolean contains(Field field) {
+        return fields.contains(field);
+    }
+
+    public boolean remove(Field field) {
+        return fields.remove(field);
     }
 }

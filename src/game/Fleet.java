@@ -22,6 +22,29 @@ public class Fleet {
             }
         return false;
     }
+    public boolean shootShip (Field field){
+        Ship ship = findShipOnField(field);
+        if (ship!=null){
+            ship.removeField(field);
+            if (ship.isDestroyed()){
+                remove(ship);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean remove(Ship ship) {
+        return shipsList.remove(ship);
+    }
+
+    private Ship findShipOnField(Field field) {
+        for (Ship s:shipsList) {
+            if (s.contains(field)) return s;
+        }
+        return null;
+    }
+
     public boolean canBePlacedOnBoard(Ship ship, Field... fields){
         assignFields(ship, fields);
         for (Ship s : shipsList) {
@@ -43,5 +66,9 @@ public class Fleet {
             if (!s.isPlacedOnBoard()) return s;
         }
         return null;
+    }
+
+    public int numberOfShips() {
+        return shipsList.size();
     }
 }

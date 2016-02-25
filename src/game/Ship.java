@@ -2,9 +2,6 @@ package game;
 
 import java.util.ArrayList;
 
-/**
- * Created by adrabik on 19.02.16.
- */
 public class Ship implements PlaceableOnBoard {
     private ShipType type;
     private ShipFieldsList fields;
@@ -29,8 +26,11 @@ public class Ship implements PlaceableOnBoard {
     }
 
     public boolean isPlacedOnBoard(){
-        if (fields.size()>0) return true;
-        return false;
+        return fields.size()>0;
+    }
+
+    public boolean contains(Field field){
+        return fields.contains(field);
     }
 
     @Override
@@ -55,5 +55,16 @@ public class Ship implements PlaceableOnBoard {
 
     public void clearFields() {
         fields = new ShipFieldsList(type.shipLength);
+    }
+
+    public boolean removeField(Field field) {
+        return fields.remove(field);
+    }
+
+    public boolean isDestroyed() {
+        return currentSize()==0;
+    }
+    public int currentSize(){
+        return fields.size();
     }
 }
