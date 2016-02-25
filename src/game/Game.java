@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.*;
+
 /**
  * Created by adrabik on 23.02.16.
  */
@@ -28,6 +30,17 @@ public class Game {
 
     public Game print() {
         System.out.println(playerOne.board);
+        System.out.println(playerTwo.board);
+        return this;
+    }
+
+    public Game placeShipPlayerTwo(Ship ship, Field... fields) {
+        playerTwo.placeShip(ship,fields);
+        return this;
+    }
+
+    public Game shootOnPlayerOneBoard(Point point) {
+        playerOne.shoot(point);
         return this;
     }
 }

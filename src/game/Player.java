@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -27,5 +28,9 @@ public class Player {
             return fleet.placeShip(ship, fromFieldsList);
         }
         return false;
+    }
+
+    public boolean shoot(Point point) {
+        return Shoot.shoot(point, board);
     }
 }

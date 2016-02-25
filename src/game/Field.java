@@ -57,4 +57,26 @@ public final class Field implements Comparable {
         double vector2 = Math.round(Math.sqrt(f.position.x*f.position.x+f.position.y*f.position.y))*100;
         return (int) Math.round(vector1-vector2);
     }
+
+    public boolean hasShip(){
+        return sign==Sign.SHIP;
+    }
+    public boolean markHit(){
+        sign=Sign.HIT;
+        return true;
+    }
+    public boolean markMiss(){
+        sign=Sign.MISS;
+        return true;
+    }
+
+    public boolean shoot() {
+        if (sign == Sign.EMPTY) {
+            sign = Sign.MISS;
+            return false;
+        } else {
+            sign = Sign.HIT;
+            return true;
+        }
+    }
 }

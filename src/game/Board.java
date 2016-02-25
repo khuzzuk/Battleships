@@ -22,11 +22,11 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         Field currentField;
 
-        for (int x = 0; x < boardDimension.width; x++) {
+        for (int y = 0; y < boardDimension.width; y++) {
             sb.append("\n");
             sb.append("-------------------------------------------------");
             sb.append("\n");
-            for (int y = 0; y < boardDimension.height; y++) {
+            for (int x = 0; x < boardDimension.height; x++) {
                 sb.append(fieldsList.get(new Field(x,y)));
                 sb.append(" | ");
             }
@@ -36,6 +36,22 @@ public class Board {
 
 
 
-    public void shot(Point field) {
+
+
+    public boolean shot(Field field) {
+        Field shootedField = fieldsList.get(field);
+        return shootedField.shoot();
+    }
+
+    public boolean hasShip(Field field) {
+        return fieldsList.get(field).hasShip();
+    }
+
+    public boolean hit(Field field) {
+        return fieldsList.get(field).markHit();
+    }
+
+    public boolean miss(Field field) {
+        return fieldsList.get(field).markHit();
     }
 }
