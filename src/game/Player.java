@@ -33,4 +33,12 @@ public class Player {
     public Ship getShipToPlaceOnBoard() {
         return fleet.getFirstFree();
     }
+
+    public BoardSize getBoardSize() {
+        return board.boardSize;
+    }
+
+    public FieldsList fieldsList() {
+        return board.fieldsList;
+    }
 }

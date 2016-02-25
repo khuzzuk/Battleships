@@ -32,6 +32,7 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
         loadImage();
     }
     public static ShipButton getShipButton(Ship ship, Point startingPosition){
+        if (ship==null) return null;
         ShipButton button;
         if (ship.shipType()== ShipType.BB){
             button = new BattleshipButton(startingPosition);

@@ -79,4 +79,8 @@ public final class Field implements Comparable {
             return true;
         }
     }
+
+    public Sign getStatus() {
+        return sign;
+    }
 }

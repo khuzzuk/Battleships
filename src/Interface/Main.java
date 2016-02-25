@@ -15,7 +15,7 @@ public class Main {
     }
     public static void main(String[] args){
         new Board(new BoardSize(10));
-        MainWindow frame = new MainWindow(new Game(new BoardSize(10)));
+        MainWindow frame = new ShipPlacementWindowPlayerOne(new Game(new BoardSize(10)));
         frame.setVisible(true);
     }
 }

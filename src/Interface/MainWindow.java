@@ -1,6 +1,5 @@
 package Interface;
 
-import Interface.Listeners.MovingButtonAdapter;
 import Interface.buttons.*;
 import game.*;
 
@@ -11,13 +10,15 @@ import java.awt.event.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class MainWindow extends JFrame {
+public abstract class MainWindow extends JFrame {
     public static MainWindow mainWindow;
-    private Dimension boardSize;
-    private FieldButtonEmpty[][] buttons;
-    private Dimension windowSize;
-    private JPanel panel;
-    private Game game;
+    protected Dimension boardSize;
+    protected FieldButtonEmpty[][] buttons;
+    protected Dimension windowSize;
+    protected JPanel panel;
+    protected Game game;
+    protected Field[] fieldsFromBoard;
+
     public MainWindow(Game game) {
         super();
         mainWindow = this;
@@ -34,12 +35,10 @@ public class MainWindow extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void showNextShip(){
-        Ship ship = game.nextShipToPlace();
-        addShip(ship);
+    protected void showNextShip(){
     }
 
-    private void addShip(Ship ship) {
+    protected void addShip(Ship ship) {
         Point startingPoint = new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE);
         ShipButton button = ShipButton.getShipButton(ship, startingPoint);
         int componentCount = panel.getComponentCount();
@@ -96,17 +95,15 @@ public class MainWindow extends JFrame {
     }
 
     public void placeShipOnBoard(Ship ship, Point... points) {
-        Field[] fields = new Field[points.length];
+        fieldsFromBoard = new Field[points.length];
         for (int i = 0; i < points.length; i++) {
-            fields[i] = new Field(points[i].x, points[i].y);
+            fieldsFromBoard[i] = new Field(points[i].x, points[i].y);
         }
-        if (game.placeShipPlayerOne(ship, fields)){
-            showNextShip();
-        }
-        else {
-            ShipButton b = (ShipButton) panel.getComponent(0);
-            b.returnToOriginalPosition();
-            b.setEnabled(true);
-        }
+    }
+
+    protected void returnLastShip() {
+        ShipButton b = (ShipButton) panel.getComponent(0);
+        b.returnToOriginalPosition();
+        b.setEnabled(true);
     }
 }

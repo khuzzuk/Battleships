@@ -5,7 +5,7 @@ package game;
  */
 public class BoardSize {
 
-    int size;
+    public final int size;
 
     public BoardSize(int boardSize) {
         this.size = boardSize;

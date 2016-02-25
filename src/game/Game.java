@@ -1,21 +1,23 @@
 package game;
 
+import Interface.*;
+
 import java.awt.*;
 
-/**
- * Created by adrabik on 23.02.16.
- */
 public class Game {
 
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
+    MainWindow mainWindow;
+    BoardWindow boardWindow;
 
     public Game(BoardSize boardSize) {
         this.boardSize = boardSize;
         playerOne = new Player(boardSize);
         playerTwo = new Player(boardSize);
         WinningConditions logic = new WinningConditions();
+        mainWindow = new ShipPlacementWindowPlayerOne(this);
     }
 
     public Game start() {
@@ -36,19 +38,43 @@ public class Game {
         return this;
     }
 
-    public Game placeShipPlayerTwo(Ship ship, Field... fields) {
-        playerTwo.placeShip(ship,fields);
+    public boolean placeShipPlayerTwo(Ship ship, Field... fields) {
+        return playerTwo.placeShip(ship,fields);
+    }
+
+    public Game shootOnPlayerBoard(Point point, Player player) {
+        player.shoot(point);
+        shootSequence();
         return this;
     }
 
-    public Game shootOnPlayerOneBoard(Point point) {
-        playerOne.shoot(point);
-        return this;
-    }
-
-    public Ship nextShipToPlace() {
+    public Ship nextShipToPlacePlayerOne() {
         Ship ship = playerOne.getShipToPlaceOnBoard();
-        if (ship==null) ship=playerTwo.getShipToPlaceOnBoard();
-        return ship;
+        if (ship==null) {
+            mainWindow.dispose();
+            mainWindow = new ShipPlacementWindowPlayerTwo(this);
+            return ship;
+        }
+        else return ship;
+    }
+
+    public Ship nextShipToPlacePlayerTwo() {
+        Ship ship = playerTwo.getShipToPlaceOnBoard();
+        if (ship==null) {
+            startShootingSequence();
+            return ship;
+        }
+        else return ship;
+    }
+
+    private void startShootingSequence() {
+        mainWindow.dispose();
+        boardWindow = new BoardWindow(this, playerOne, playerTwo);
+        boardWindow.setVisible(true);
+        shootSequence();
+    }
+
+    private void shootSequence() {
+        boardWindow.playerOneIsShot();
     }
 }

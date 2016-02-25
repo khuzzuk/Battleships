@@ -7,10 +7,12 @@ import java.util.Iterator;
 
 public class Board {
     public Dimension boardDimension;
+    BoardSize boardSize;
     final FieldsList fieldsList;
 
     public Board(BoardSize boardSize) {
         boardDimension = new Dimension(boardSize.size, boardSize.size);
+        this.boardSize = boardSize;
         fieldsList = new FieldsList(boardSize.size);
     }
 

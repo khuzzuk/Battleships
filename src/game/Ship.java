@@ -17,7 +17,7 @@ public class Ship implements PlaceableOnBoard {
                 f.markShip();
             }
         }
-        else throw new IllegalArgumentException("Ship has "+shipFields.length+" fields. This type should have "+type.ordinal()+" fields.");
+        else throw new IllegalArgumentException("Ship has "+shipFields.length+" fields. This type should have "+type.shipLength+" fields.");
     }
 
     public boolean canBePlacedWith(PlaceableOnBoard otherShip){
