@@ -44,6 +44,12 @@ public class BoardWindow extends JFrame {
         repaint();revalidate();
     }
     public void playerOneIsShot(){
+        remove(panel2);
         addFields(player1.fieldsList(),panel1, player1);
+    }
+
+    public void playerTwoIsShot() {
+        remove(panel1);
+        addFields(player2.fieldsList(),panel2, player2);
     }
 }

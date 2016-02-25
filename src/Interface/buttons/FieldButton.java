@@ -55,8 +55,8 @@ public class FieldButton extends JButton implements RenderingOptions {
             g2.fill(rectangle);
             g2.setColor(Color.BLACK);
             g2.draw(rectangle);
-            int size = PlaceableItem.ITEM_SIZE/2;
-            g2.fill(new Ellipse2D.Float(size,size,size,size));
+            int size = PlaceableItem.ITEM_SIZE;
+            g2.fill(new Ellipse2D.Float(size/3,size/3,size/2,size/2));
         }
     }
     protected void paintBorder(Graphics g) {

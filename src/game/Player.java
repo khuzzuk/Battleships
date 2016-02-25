@@ -6,8 +6,10 @@ import java.util.List;
 public class Player {
     Board board;
     Fleet fleet;
-    public Player(BoardSize boardSize) {
+    PlayerNumber playerNumber;
+    public Player(BoardSize boardSize, PlayerNumber playerNumber) {
         board = new Board(boardSize);
+        this.playerNumber=playerNumber;
         List<ShipType> ships = ShipPlacement.startingShipList();
         fleet = new Fleet(ships);
     }

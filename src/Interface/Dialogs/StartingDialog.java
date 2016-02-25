@@ -1,4 +1,4 @@
-package Interface;
+package Interface.Dialogs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class StartingDialog extends JDialog {
+public class StartingDialog extends JDialog implements GridLayoutSettings {
 
     private JFormattedTextField textField;
 
@@ -41,15 +41,6 @@ public class StartingDialog extends JDialog {
         JLabel secondLabel = new JLabel("Please, decide about board size.");
         constr.gridy = 1;
         panel.add(secondLabel,constr);
-    }
-
-    private GridBagConstraints setupConstraints() {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.weightx=0;
-        constr.weighty=50;
-        constr.fill = GridBagConstraints.HORIZONTAL;
-        constr.insets = new Insets(5,5,5,5);
-        return constr;
     }
 
     private JPanel setupJPanel() {

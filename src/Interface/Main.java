@@ -1,6 +1,7 @@
 package Interface;
 
 
+import Interface.Dialogs.StartingDialog;
 import game.Board;
 import game.BoardSize;
 import game.Game;

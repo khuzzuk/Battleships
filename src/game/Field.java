@@ -49,7 +49,7 @@ public final class Field implements Comparable {
         return position.hashCode();
     }
 
-    //@Override
+    @Override
     public int compareTo(Object o) {
         if (!o.getClass().equals(getClass())) return -1;
         Field f = (Field) o;

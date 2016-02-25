@@ -1,5 +1,6 @@
 package Interface;
 
+import Interface.Dialogs.DisclosureDialog;
 import Interface.buttons.*;
 import game.*;
 

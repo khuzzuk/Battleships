@@ -1,6 +1,7 @@
 package game;
 
 import Interface.*;
+import Interface.Dialogs.PlayerShootDialog;
 
 import java.awt.*;
 
@@ -11,18 +12,19 @@ public class Game {
     Player playerTwo;
     MainWindow mainWindow;
     BoardWindow boardWindow;
+    private Player currentPlayer;
 
     public Game(BoardSize boardSize) {
         this.boardSize = boardSize;
-        playerOne = new Player(boardSize);
-        playerTwo = new Player(boardSize);
+        playerOne = new Player(boardSize, new PlayerNumber(1));
+        playerTwo = new Player(boardSize, new PlayerNumber(2));
         WinningConditions logic = new WinningConditions();
         mainWindow = new ShipPlacementWindowPlayerOne(this);
     }
 
     public Game start() {
-        playerOne = new Player(boardSize);
-        playerTwo = new Player(boardSize);
+        playerOne = new Player(boardSize, new PlayerNumber(1));
+        playerTwo = new Player(boardSize, new PlayerNumber(2));
         WinningConditions logic = new WinningConditions();
         return this;
     }
@@ -43,8 +45,14 @@ public class Game {
     }
 
     public Game shootOnPlayerBoard(Point point, Player player) {
-        player.shoot(point);
-        shootSequence();
+        if (player.shoot(point)){
+            shootSequence();
+        }
+        else {
+            if (player.playerNumber.number==2) currentPlayer=playerTwo;
+            else currentPlayer=playerOne;
+            shootSequence();
+        }
         return this;
     }
 
@@ -71,10 +79,20 @@ public class Game {
         mainWindow.dispose();
         boardWindow = new BoardWindow(this, playerOne, playerTwo);
         boardWindow.setVisible(true);
+        currentPlayer=playerOne;
         shootSequence();
     }
 
     private void shootSequence() {
-        boardWindow.playerOneIsShot();
+        if (currentPlayer.playerNumber.number==1){
+            PlayerShootDialog dialog = new PlayerShootDialog(1);
+            dialog.setVisible(true);
+            boardWindow.playerTwoIsShot();
+        }
+        else{
+            PlayerShootDialog dialog = new PlayerShootDialog(2);
+            dialog.setVisible(true);
+            boardWindow.playerOneIsShot();
+        }
     }
 }
