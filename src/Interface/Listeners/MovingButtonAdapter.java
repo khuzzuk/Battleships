@@ -21,11 +21,13 @@ public class MovingButtonAdapter extends MouseInputAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (!button.isEnabled()) return;
         button.relocate(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (!button.isEnabled()) return;
         int buttonX = button.getBounds().x;
         int buttonY = button.getBounds().y;
         Dimension shipSize = button.getShipSize();
@@ -38,19 +40,22 @@ public class MovingButtonAdapter extends MouseInputAdapter {
         if (fieldPoint==null){
             button.returnToOriginalPosition();
         } else{
-            //fieldPoint.x+= PlaceableItem.ITEM_SIZE;
-            //fieldPoint.y+= PlaceableItem.ITEM_SIZE;
             button.placeOnBoard(fieldPoint);
+            button.setEnabled(false);
+            MainWindow.mainWindow.repaint();
+            MainWindow.mainWindow.revalidate();
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (!button.isEnabled()) return;
         button.relocate(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        if (!button.isEnabled()) return;
         button.changeOrientation();
     }
 }

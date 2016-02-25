@@ -29,4 +29,8 @@ public class Player {
     public boolean shoot(Point point) {
         return Shoot.shoot(point, board, fleet);
     }
+
+    public Ship getShipToPlaceOnBoard() {
+        return fleet.getFirstFree();
+    }
 }

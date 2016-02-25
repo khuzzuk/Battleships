@@ -2,7 +2,7 @@ package Interface;
 
 import Interface.Listeners.MovingButtonAdapter;
 import Interface.buttons.*;
-import game.Board;
+import game.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,39 +17,34 @@ public class MainWindow extends JFrame {
     private FieldButtonEmpty[][] buttons;
     private Dimension windowSize;
     private JPanel panel;
-    public MainWindow() {
+    private Game game;
+    public MainWindow(Game game) {
         super();
         mainWindow = this;
+        this.game = game;
         closingDefinition();
         boardSize = new Dimension(10,10);
         windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+200, boardSize.height*PlaceableItem.ITEM_SIZE+40);
         preparePanel();
-        addShip();
+        showNextShip();
         addFields();
         setSize(windowSize);
+        DisclosureDialog dialog = new DisclosureDialog();
+        setVisible(true);
+        dialog.setVisible(true);
     }
 
-    private void addShip() {
-        BattleshipButton button = new BattleshipButton(new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE));
-        button.addMouseListener(new MovingButtonAdapter(button));
-        button.addMouseMotionListener(new MovingButtonAdapter(button));
-        button.addMouseWheelListener(new MovingButtonAdapter(button));
-        panel.add(button);
-        CruiserButton cruiserButton = new CruiserButton(new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE*3));
-        cruiserButton.addMouseListener(new MovingButtonAdapter(cruiserButton));
-        cruiserButton.addMouseMotionListener(new MovingButtonAdapter(cruiserButton));
-        cruiserButton.addMouseWheelListener(new MovingButtonAdapter(cruiserButton));
-        panel.add(cruiserButton);
-        DestroyerButton destroyerButton = new DestroyerButton(new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE*5));
-        destroyerButton.addMouseListener(new MovingButtonAdapter(destroyerButton));
-        destroyerButton.addMouseMotionListener(new MovingButtonAdapter(destroyerButton));
-        destroyerButton.addMouseWheelListener(new MovingButtonAdapter(destroyerButton));
-        panel.add(destroyerButton);
-        SubmarineButton submarineButton = new SubmarineButton(new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE*7));
-        submarineButton.addMouseListener(new MovingButtonAdapter(submarineButton));
-        submarineButton.addMouseMotionListener(new MovingButtonAdapter(submarineButton));
-        submarineButton.addMouseWheelListener(new MovingButtonAdapter(submarineButton));
-        panel.add(submarineButton);
+    private void showNextShip(){
+        Ship ship = game.nextShipToPlace();
+        addShip(ship);
+    }
+
+    private void addShip(Ship ship) {
+        Point startingPoint = new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE);
+        ShipButton button = ShipButton.getShipButton(ship, startingPoint);
+        int componentCount = panel.getComponentCount();
+        if (componentCount==0) panel.add(button);
+        else panel.add(button, 0);
     }
 
     private void addFields() {
@@ -98,5 +93,14 @@ public class MainWindow extends JFrame {
         int counterMaxPosition = (counterWidth/2+1)/PlaceableItem.ITEM_SIZE;
         if (counterMaxPosition<=fieldPosition) return true;
         return false;
+    }
+
+    public void placeShipOnBoard(Ship ship, Point... points) {
+        Field[] fields = new Field[points.length];
+        for (int i = 0; i < points.length; i++) {
+            fields[i] = new Field(points[i].x, points[i].y);
+        }
+        game.placeShipPlayerOne(ship, fields);
+        showNextShip();
     }
 }

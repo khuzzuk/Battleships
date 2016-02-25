@@ -13,12 +13,15 @@ public class Game {
 
     public Game(BoardSize boardSize) {
         this.boardSize = boardSize;
+        playerOne = new Player(boardSize);
+        playerTwo = new Player(boardSize);
+        WinningConditions logic = new WinningConditions();
     }
 
     public Game start() {
         playerOne = new Player(boardSize);
         playerTwo = new Player(boardSize);
-        Logic logic = new Logic();
+        WinningConditions logic = new WinningConditions();
         return this;
     }
 
@@ -42,5 +45,11 @@ public class Game {
     public Game shootOnPlayerOneBoard(Point point) {
         playerOne.shoot(point);
         return this;
+    }
+
+    public Ship nextShipToPlace() {
+        Ship ship = playerOne.getShipToPlaceOnBoard();
+        if (ship==null) ship=playerTwo.getShipToPlaceOnBoard();
+        return ship;
     }
 }

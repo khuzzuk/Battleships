@@ -67,4 +67,8 @@ public class Ship implements PlaceableOnBoard {
     public int currentSize(){
         return fields.size();
     }
+
+    public ShipType shipType() {
+        return type;
+    }
 }

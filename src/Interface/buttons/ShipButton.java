@@ -1,7 +1,10 @@
 package Interface.buttons;
 
+import Interface.Listeners.MovingButtonAdapter;
 import Interface.MainWindow;
 import Interface.Orientation;
+import game.Ship;
+import game.ShipType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +22,7 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     protected Rectangle rectangle;
     protected Orientation orientation;
     protected BufferedImage image;
+    protected Point[] pointsOnBoard;
 
     public ShipButton(Point point) {
         orientation = Orientation.HORIZONTAL;
@@ -26,6 +30,21 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
         originalPosition=position=point;
         relocate(position);
         loadImage();
+    }
+    public static ShipButton getShipButton(Ship ship, Point startingPosition){
+        ShipButton button;
+        if (ship.shipType()== ShipType.BB){
+            button = new BattleshipButton(startingPosition);
+        }
+        else if (ship.shipType()==ShipType.CA)
+            button = new CruiserButton(startingPosition);
+        else if (ship.shipType()==ShipType.DD)
+            button = new DestroyerButton(startingPosition);
+        else button = new SubmarineButton(startingPosition);
+        button.addMouseListener(new MovingButtonAdapter(button));
+        button.addMouseMotionListener(new MovingButtonAdapter(button));
+        button.addMouseWheelListener(new MovingButtonAdapter(button));
+        return button;
     }
 
     protected abstract void loadImage();
@@ -70,6 +89,16 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     }
 
     public void placeOnBoard(Point point){
+        int numberOfShipFields = (int) Math.max((shipSize.getWidth()-1)/PlaceableItem.ITEM_SIZE,
+                (shipSize.getHeight()-1)/PlaceableItem.ITEM_SIZE);
+        pointsOnBoard = new Point[numberOfShipFields];
+        pointsOnBoard[0] = new Point(point.x/PlaceableItem.ITEM_SIZE, point.y/PlaceableItem.ITEM_SIZE);
+        for (int x = 1; x < pointsOnBoard.length; x++) {
+            if (orientation==Orientation.HORIZONTAL){
+                pointsOnBoard[x] = new Point(pointsOnBoard[x-1].x+1, pointsOnBoard[x-1].y);
+            }
+            else pointsOnBoard[x] = new Point(pointsOnBoard[x-1].x, pointsOnBoard[x-1].y+1);
+        }
         relocate(point);
     }
 
@@ -87,6 +116,7 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
         g2.setColor(Color.white);
         g2.fill(rectangle);
         g2.setColor(Color.black);
+        if (!isEnabled()) g2.setColor(Color.RED);
         g2.draw(rectangle);
         if (orientation==Orientation.VERTICAL) {
             drawRotatedIcon(g2);
