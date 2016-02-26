@@ -5,5 +5,5 @@ package Interface.buttons;
  */
 public interface PlaceableItem {
 
-    public static final int ITEM_SIZE = 20;
+    public static final int ITEM_SIZE = 60;
 }

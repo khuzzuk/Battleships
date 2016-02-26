@@ -1,6 +1,6 @@
 package Interface.buttons;
 
-import Interface.MainWindow;
+import Interface.ShipPlacementWindow;
 import game.fleet.Ship;
 import game.fleet.ShipType;
 
@@ -22,7 +22,7 @@ public class SubmarineButton extends ShipButton {
     @Override
     public void placeOnBoard(Point point) {
         super.placeOnBoard(point);
-        MainWindow.mainWindow.placeShipOnBoard(new Ship(ShipType.SS), pointsOnBoard);
+        ShipPlacementWindow.shipPlacementWindow.placeShipOnBoard(new Ship(ShipType.SS), pointsOnBoard);
     }
 
     protected void loadImage() {

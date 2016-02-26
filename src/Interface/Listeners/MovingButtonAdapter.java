@@ -1,6 +1,6 @@
 package Interface.Listeners;
 
-import Interface.MainWindow;
+import Interface.ShipPlacementWindow;
 import Interface.buttons.PlaceableItem;
 import Interface.buttons.ShipButton;
 
@@ -34,16 +34,16 @@ public class MovingButtonAdapter extends MouseInputAdapter {
         int buttonWidth = shipSize.width;
         int buttonHeight = shipSize.height;
         Point shipLocation = new Point(
-                buttonX+buttonWidth/2 -PlaceableItem.ITEM_SIZE,
+                buttonX+buttonWidth/2 -PlaceableItem.ITEM_SIZE/2,
                 buttonY- buttonHeight/2 +PlaceableItem.ITEM_SIZE);
-        Point fieldPoint = MainWindow.mainWindow.getNearestFieldLocation(shipLocation, shipSize);
+        Point fieldPoint = ShipPlacementWindow.shipPlacementWindow.getNearestFieldLocation(shipLocation, shipSize);
         if (fieldPoint==null){
             button.returnToOriginalPosition();
         } else{
             button.setEnabled(false);
             button.placeOnBoard(fieldPoint);
-            MainWindow.mainWindow.repaint();
-            MainWindow.mainWindow.revalidate();
+            ShipPlacementWindow.shipPlacementWindow.repaint();
+            ShipPlacementWindow.shipPlacementWindow.revalidate();
         }
     }
 

@@ -15,7 +15,7 @@ public class Game {
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
-    MainWindow mainWindow;
+    ShipPlacementWindow shipPlacementWindow;
     BoardWindow boardWindow;
     Player currentPlayer;
 
@@ -24,7 +24,7 @@ public class Game {
         playerOne = new Player(boardSize, new PlayerNumber(1));
         playerTwo = new Player(boardSize, new PlayerNumber(2));
         currentPlayer = playerOne;
-        mainWindow = new MainWindow(this, playerOne);
+        shipPlacementWindow = new ShipPlacementWindow(this, playerOne);
     }
 
     public Game start() {
@@ -63,8 +63,8 @@ public class Game {
         Ship ship = player.getShipToPlaceOnBoard();
         if (ship==null) {
             if (currentPlayer.equals(playerOne)){
-                mainWindow.dispose();
-                mainWindow = new MainWindow(this,playerTwo);
+                shipPlacementWindow.dispose();
+                shipPlacementWindow = new ShipPlacementWindow(this,playerTwo);
                 currentPlayer = playerTwo;
             }
             else startShootingSequence();
@@ -73,7 +73,7 @@ public class Game {
     }
 
     private void startShootingSequence() {
-        mainWindow.dispose();
+        shipPlacementWindow.dispose();
         boardWindow = new BoardWindow(this, playerOne, playerTwo);
         boardWindow.setVisible(true);
         currentPlayer=playerOne;

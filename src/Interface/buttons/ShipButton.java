@@ -1,7 +1,7 @@
 package Interface.buttons;
 
 import Interface.Listeners.MovingButtonAdapter;
-import Interface.MainWindow;
+import Interface.ShipPlacementWindow;
 import Interface.Orientation;
 import game.fleet.Ship;
 import game.fleet.ShipType;
@@ -64,8 +64,8 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     public void relocate(MouseEvent e){
         Point onScreen = e.getLocationOnScreen();
         Point relativePoint = e.getPoint();
-        int windowX = MainWindow.mainWindow.getX();
-        int windowY = MainWindow.mainWindow.getY();
+        int windowX = ShipPlacementWindow.shipPlacementWindow.getX();
+        int windowY = ShipPlacementWindow.shipPlacementWindow.getY();
         Point location = new Point(onScreen.x-shipSize.width/2-windowX-10,onScreen.y-shipSize.height/2-30-windowY);
         relocate(location);
     }

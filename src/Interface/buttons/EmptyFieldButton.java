@@ -6,21 +6,20 @@ import java.awt.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class FieldButtonEmpty extends JButton implements PlaceableItem {
+public class EmptyFieldButton extends JButton implements PlaceableItem {
     protected Point position;
     protected static Color backgroundColor = Color.WHITE;
     protected static Color borderColor = Color.BLACK;
     protected static Color activatedBorderColor = Color.GREEN;
-    public static final Dimension fieldSize = new Dimension(20,20);
+    public static final Dimension fieldSize = new Dimension(PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE);
     private Rectangle rectangle;
 
-    private FieldButtonEmpty() {}
-    public FieldButtonEmpty(Point position) {
+    private EmptyFieldButton() {}
+    public EmptyFieldButton(Point position) {
         setOpaque(true);
         this.position=position;
         setBounds(new Rectangle(position, fieldSize));
-        rectangle = new Rectangle(0, 0, fieldSize.width, fieldSize.height);
-        setPreferredSize(fieldSize);
+        rectangle = new Rectangle(0, 0, PlaceableItem.ITEM_SIZE-2, PlaceableItem.ITEM_SIZE-2);
     }
 
     @Override

@@ -28,8 +28,8 @@ public class BoardWindow extends JFrame implements ClosableWindow {
         boardSize = player1.getBoardSize();
         boardWindow = this;
         preparePanel();
-        int windowSize = boardSize.size* PlaceableItem.ITEM_SIZE;
-        setSize(new Dimension(windowSize*5/4-10, windowSize*5/4+10));
+        int windowSize = boardSize.size* PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE;
+        setSize(new Dimension(windowSize, windowSize+PlaceableItem.ITEM_SIZE/2));
     }
     private void preparePanel(){
         panel1 = new JPanel(null);

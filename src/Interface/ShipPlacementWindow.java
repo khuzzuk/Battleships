@@ -13,24 +13,24 @@ import java.awt.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class MainWindow extends JFrame implements ClosableWindow {
-    public static MainWindow mainWindow;
+public class ShipPlacementWindow extends JFrame implements ClosableWindow {
+    public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
-    protected FieldButtonEmpty[][] buttons;
+    protected EmptyFieldButton[][] buttons;
     protected Dimension windowSize;
     protected JPanel panel;
     protected Game game;
     protected Field[] fieldsFromBoard;
 
-    public MainWindow(Game game, Player player) {
+    public ShipPlacementWindow(Game game, Player player) {
         super();
-        mainWindow = this;
+        shipPlacementWindow = this;
         this.player = player;
         this.game = game;
         closingDefinition(this);
         boardSize = new Dimension(10,10);
-        windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+200, boardSize.height*PlaceableItem.ITEM_SIZE+40);
+        windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE*6, boardSize.height*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE);
         preparePanel();
         showNextShip();
         addFields();
@@ -56,10 +56,10 @@ public class MainWindow extends JFrame implements ClosableWindow {
     }
 
     private void addFields() {
-        buttons = new FieldButtonEmpty[boardSize.width][boardSize.height];
+        buttons = new EmptyFieldButton[boardSize.width][boardSize.height];
         for (int x=0; x<boardSize.width; x++){
             for (int y = 0; y < boardSize.height; y++) {
-                buttons[x][y] = new FieldButtonEmpty(new Point(x*20,y*20));
+                buttons[x][y] = new EmptyFieldButton(new Point(x*PlaceableItem.ITEM_SIZE,y*PlaceableItem.ITEM_SIZE));
                 buttons[x][y].setFocusable(false);
                 panel.add(buttons[x][y]);
             }
