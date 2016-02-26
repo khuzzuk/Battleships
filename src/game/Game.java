@@ -17,12 +17,13 @@ public class Game {
     Player playerTwo;
     MainWindow mainWindow;
     BoardWindow boardWindow;
-    private Player currentPlayer;
+    Player currentPlayer;
 
     public Game(BoardSize boardSize) {
         this.boardSize = boardSize;
         playerOne = new Player(boardSize, new PlayerNumber(1));
         playerTwo = new Player(boardSize, new PlayerNumber(2));
+        currentPlayer = playerOne;
         mainWindow = new ShipPlacementWindowPlayerOne(this);
     }
 

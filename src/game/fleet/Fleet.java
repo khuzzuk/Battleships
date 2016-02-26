@@ -48,7 +48,7 @@ public class Fleet {
     }
 
     public boolean canBePlacedOnBoard(Ship ship, Field... fields){
-        assignFields(ship, fields);
+        assignFields(ship, fields); //// TODO: 2/26/2016 Make method canBePlacedWith of Ship class to accept also fields, not ship only
         for (Ship s : shipsList) {
             if (!ship.canBePlacedWith(s)) {
                 ship.clearFields();
