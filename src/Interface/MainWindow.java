@@ -5,6 +5,7 @@ import Interface.buttons.*;
 import game.*;
 import game.board.fields.Field;
 import game.fleet.Ship;
+import game.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,18 +13,20 @@ import java.awt.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public abstract class MainWindow extends JFrame implements ClosableWindow {
+public class MainWindow extends JFrame implements ClosableWindow {
     public static MainWindow mainWindow;
-    protected Dimension boardSize;
+    private final Player player;
+    protected final Dimension boardSize;
     protected FieldButtonEmpty[][] buttons;
     protected Dimension windowSize;
     protected JPanel panel;
     protected Game game;
     protected Field[] fieldsFromBoard;
 
-    public MainWindow(Game game) {
+    public MainWindow(Game game, Player player) {
         super();
         mainWindow = this;
+        this.player = player;
         this.game = game;
         closingDefinition(this);
         boardSize = new Dimension(10,10);
@@ -39,6 +42,9 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
     }
 
     protected void showNextShip(){
+        Ship ship = game.nextShipToPlace(player);
+        if (ship!=null)
+            addShip(ship);
     }
 
     protected void addShip(Ship ship) {
@@ -86,8 +92,7 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
 
     private boolean isInBoardRange(int counterWidth, int fieldPosition) {
         int counterMaxPosition = counterWidth/PlaceableItem.ITEM_SIZE;
-        if (counterMaxPosition+fieldPosition<=boardSize.width) return true;
-        return false;
+        return counterMaxPosition+fieldPosition<=boardSize.width;
     }
 
     public void placeShipOnBoard(Ship ship, Point... points) {
@@ -95,6 +100,13 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
         for (int i = 0; i < points.length; i++) {
             fieldsFromBoard[i] = new Field(points[i].x, points[i].y);
         }
+        if (game.placeShip(ship, player, fieldsFromBoard)){
+            showNextShip();
+        }
+        else {
+            returnLastShip();
+        }
+        repaint();revalidate();
     }
 
     protected void returnLastShip() {

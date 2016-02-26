@@ -23,9 +23,6 @@ public class Player {
         List<ShipType> ships = ShipSettings.startingShipList();
         fleet = new Fleet(ships);
     }
-    public boolean hasPlacedAllShipsOnBoard(){
-        return fleet.getFirstFree()==null;
-    }
 
     public boolean placeShip(Ship ship, Field... fields) {
         if (fleet.canBePlacedOnBoard(ship,fields)) {

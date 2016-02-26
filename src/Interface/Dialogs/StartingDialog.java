@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
-/**
- * Created by Adrian on 19.02.2016.
- */
 public class StartingDialog extends JDialog implements GridLayoutSettings {
 
     private JFormattedTextField textField;
@@ -27,7 +24,6 @@ public class StartingDialog extends JDialog implements GridLayoutSettings {
         textField.addActionListener(e -> {
             System.out.println(textField.getValue().toString());
             dispose();
-            //Main.startGame();
         });
         constr.gridy=2;
         panel.add(textField,constr);

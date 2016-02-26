@@ -24,7 +24,7 @@ public class Game {
         playerOne = new Player(boardSize, new PlayerNumber(1));
         playerTwo = new Player(boardSize, new PlayerNumber(2));
         currentPlayer = playerOne;
-        mainWindow = new ShipPlacementWindowPlayerOne(this);
+        mainWindow = new MainWindow(this, playerOne);
     }
 
     public Game start() {
@@ -34,18 +34,8 @@ public class Game {
     }
 
 
-    public boolean placeShipPlayerOne(Ship ship, Field... fields) {
-        return playerOne.placeShip(ship,fields);
-    }
-
-    public Game print() {
-        System.out.println(playerOne);
-        System.out.println(playerTwo);
-        return this;
-    }
-
-    public boolean placeShipPlayerTwo(Ship ship, Field... fields) {
-        return playerTwo.placeShip(ship,fields);
+    public boolean placeShip(Ship ship, Player player, Field... fields) {
+        return player.placeShip(ship,fields);
     }
 
     public Game shootOnPlayerBoard(Point point, Player player) {
@@ -69,23 +59,17 @@ public class Game {
         return this;
     }
 
-    public Ship nextShipToPlacePlayerOne() {
-        Ship ship = playerOne.getShipToPlaceOnBoard();
+    public Ship nextShipToPlace(Player player) {
+        Ship ship = player.getShipToPlaceOnBoard();
         if (ship==null) {
-            mainWindow.dispose();
-            mainWindow = new ShipPlacementWindowPlayerTwo(this);
-            return ship;
+            if (currentPlayer.equals(playerOne)){
+                mainWindow.dispose();
+                mainWindow = new MainWindow(this,playerTwo);
+                currentPlayer = playerTwo;
+            }
+            else startShootingSequence();
         }
-        else return ship;
-    }
-
-    public Ship nextShipToPlacePlayerTwo() {
-        Ship ship = playerTwo.getShipToPlaceOnBoard();
-        if (ship==null) {
-            startShootingSequence();
-            return ship;
-        }
-        else return ship;
+        return ship;
     }
 
     private void startShootingSequence() {
@@ -96,17 +80,20 @@ public class Game {
         shootSequence();
     }
 
+
     private void shootSequence() {
 
         if (currentPlayer.equals(playerOne)){
-            //PlayerShootDialog dialog = new PlayerShootDialog(1);
-            //dialog.setVisible(true);
             boardWindow.playerTwoIsShot();
         }
         else{
-            //PlayerShootDialog dialog = new PlayerShootDialog(2);
-            //dialog.setVisible(true);
             boardWindow.playerOneIsShot();
         }
+    }
+
+    public Game print() {
+        System.out.println(playerOne);
+        System.out.println(playerTwo);
+        return this;
     }
 }
