@@ -11,7 +11,7 @@ import java.awt.event.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public abstract class MainWindow extends JFrame {
+public abstract class MainWindow extends JFrame implements ClosableWindow {
     public static MainWindow mainWindow;
     protected Dimension boardSize;
     protected FieldButtonEmpty[][] buttons;
@@ -24,7 +24,7 @@ public abstract class MainWindow extends JFrame {
         super();
         mainWindow = this;
         this.game = game;
-        closingDefinition();
+        closingDefinition(this);
         boardSize = new Dimension(10,10);
         windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+200, boardSize.height*PlaceableItem.ITEM_SIZE+40);
         preparePanel();
@@ -61,15 +61,6 @@ public abstract class MainWindow extends JFrame {
     private void preparePanel() {
         panel = new JPanel(null);
         panel.setSize(windowSize);
-    }
-
-    private void closingDefinition() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
     }
 
     public Point getNearestFieldLocation(Point point, Dimension size){

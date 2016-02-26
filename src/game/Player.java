@@ -43,4 +43,8 @@ public class Player {
     public FieldsList fieldsList() {
         return board.fieldsList;
     }
+
+    public boolean hasNoShips(){
+        return fleet.numberOfShips()==0;
+    }
 }

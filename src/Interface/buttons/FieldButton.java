@@ -1,5 +1,6 @@
 package Interface.buttons;
 
+import Interface.Listeners.ShootListener;
 import Interface.RenderingOptions;
 import Interface.buttons.PlaceableItem;
 import game.Field;
@@ -29,6 +30,9 @@ public class FieldButton extends JButton implements RenderingOptions {
         sign = field.getStatus();
         int menuSize = PlaceableItem.ITEM_SIZE+2;
         setBounds(x*menuSize, y*menuSize, menuSize,menuSize);
+    }
+    public boolean isFieldUsable(){
+        return sign==Sign.EMPTY || sign==Sign.SHIP;
     }
     public boolean contains(int x, int y) {
         return rectangle.contains(x, y);
