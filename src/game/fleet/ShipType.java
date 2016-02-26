@@ -1,4 +1,4 @@
-package game;
+package game.fleet;
 
 /**
  * Created by adrabik on 19.02.16.

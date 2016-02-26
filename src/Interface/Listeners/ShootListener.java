@@ -1,7 +1,7 @@
 package Interface.Listeners;
 
 import game.Game;
-import game.Player;
+import game.player.Player;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,7 @@
-package game;
+package game.board.fields;
 
-import java.awt.*;
+import game.board.fields.Field;
+
 import java.util.*;
 
 /**
@@ -30,5 +31,19 @@ public class FieldsList {
             }
         }
         throw new NoSuchElementException("Nie znaleziono pola");
+    }
+    public boolean hasShip(Field field){
+        return get(field).hasShip();
+    }
+    public boolean markHit(Field field){
+        return get(field).markHit();
+    }
+
+    public boolean markMiss(Field field) {
+        return get(field).markMiss();
+    }
+
+    public String print(Field field) {
+        return get(field).toString();
     }
 }

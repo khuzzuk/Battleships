@@ -1,4 +1,4 @@
-package game;
+package game.board.fields;
 
 /**
  * Created by adrabik on 23.02.16.

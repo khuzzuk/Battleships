@@ -1,15 +1,11 @@
 package Interface.buttons;
 
 import Interface.MainWindow;
-import Interface.Orientation;
-import game.Ship;
-import game.ShipType;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,7 +26,7 @@ public class CruiserButton extends ShipButton {
 
     protected void loadImage() {
         try {
-            image = ImageIO.read(new File(getClass().getClassLoader().getResource("CA.png").getFile()));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("CA.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

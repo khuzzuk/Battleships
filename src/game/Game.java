@@ -1,8 +1,12 @@
 package game;
 
 import Interface.*;
-import Interface.Dialogs.PlayerShootDialog;
 import Interface.Dialogs.PlayerWinDialog;
+import game.board.BoardSize;
+import game.board.fields.Field;
+import game.fleet.Ship;
+import game.player.Player;
+import game.player.PlayerNumber;
 
 import java.awt.*;
 
@@ -34,8 +38,8 @@ public class Game {
     }
 
     public Game print() {
-        System.out.println(playerOne.board);
-        System.out.println(playerTwo.board);
+        System.out.println(playerOne);
+        System.out.println(playerTwo);
         return this;
     }
 
@@ -45,7 +49,7 @@ public class Game {
 
     public Game shootOnPlayerBoard(Point point, Player player) {
         if (!player.shoot(point)){
-            if (player.playerNumber.number==2) currentPlayer=playerTwo;
+            if (player.equals(playerTwo)) currentPlayer=playerTwo;
             else currentPlayer=playerOne;
         }
         if (playerOne.hasNoShips()){
@@ -93,7 +97,7 @@ public class Game {
 
     private void shootSequence() {
 
-        if (currentPlayer.playerNumber.number==1){
+        if (currentPlayer.equals(playerOne)){
             //PlayerShootDialog dialog = new PlayerShootDialog(1);
             //dialog.setVisible(true);
             boardWindow.playerTwoIsShot();

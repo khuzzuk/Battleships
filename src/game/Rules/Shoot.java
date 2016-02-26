@@ -1,4 +1,8 @@
-package game;
+package game.rules;
+
+import game.board.Board;
+import game.board.fields.Field;
+import game.fleet.Fleet;
 
 import java.awt.*;
 

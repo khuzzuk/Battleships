@@ -4,6 +4,10 @@ import Interface.Listeners.ShootListener;
 import Interface.buttons.FieldButton;
 import Interface.buttons.PlaceableItem;
 import game.*;
+import game.board.BoardSize;
+import game.board.fields.Field;
+import game.board.fields.FieldsList;
+import game.player.Player;
 
 import javax.swing.*;
 import java.awt.*;

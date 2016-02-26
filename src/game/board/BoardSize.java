@@ -1,8 +1,5 @@
-package game;
+package game.board;
 
-/**
- * Created by adrabik on 23.02.16.
- */
 public class BoardSize {
 
     public final int size;

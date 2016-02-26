@@ -1,6 +1,6 @@
-package game;
+package game.fleet;
 
-import java.util.ArrayList;
+import game.board.fields.Field;
 
 public class Ship implements PlaceableOnBoard {
     private ShipType type;

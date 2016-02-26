@@ -1,12 +1,11 @@
 package Interface.buttons;
 
 import Interface.MainWindow;
-import game.Ship;
-import game.ShipType;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -28,7 +27,7 @@ public class SubmarineButton extends ShipButton {
 
     protected void loadImage() {
         try {
-            image = ImageIO.read(new File(getClass().getClassLoader().getResource("SS.png").getFile()));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("SS.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

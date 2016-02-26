@@ -3,8 +3,8 @@ package Interface.buttons;
 import Interface.Listeners.MovingButtonAdapter;
 import Interface.MainWindow;
 import Interface.Orientation;
-import game.Ship;
-import game.ShipType;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,7 +115,9 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = setRendering(g);
-        g2.setColor(Color.white);
+        g2.setColor(new Color(220,220,220));
+        if (isEnabled())
+            g2.setColor(Color.white);
         g2.fill(rectangle);
         g2.setColor(Color.black);
         if (!isEnabled()) g2.setColor(Color.RED);

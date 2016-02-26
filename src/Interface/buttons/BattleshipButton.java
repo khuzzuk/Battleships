@@ -1,17 +1,12 @@
 package Interface.buttons;
 
 import Interface.MainWindow;
-import Interface.Orientation;
-import game.Ship;
-import game.ShipType;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by adrabik on 22.02.16.
@@ -32,7 +27,7 @@ public class BattleshipButton extends ShipButton {
     @Override
     protected void loadImage() {
         try {
-            image = ImageIO.read(new File(getClass().getClassLoader().getResource("BB.png").getFile()));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("BB.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

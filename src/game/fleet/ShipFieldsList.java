@@ -1,4 +1,6 @@
-package game;
+package game.fleet;
+
+import game.board.fields.Field;
 
 import java.util.HashSet;
 import java.util.Set;

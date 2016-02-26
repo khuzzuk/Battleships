@@ -1,5 +1,9 @@
-package game;
+package game.fleet;
 
+import game.board.fields.Sign;
+import game.board.fields.Field;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +14,7 @@ public class ShipTests {
         //given
         Ship firstShip = new Ship(ShipType.DD);
         Ship secondShip = new Ship(ShipType.DD);
-        firstShip.addFieldsFromBoard(new Field(0,1,Sign.EMPTY), new Field(1,1,Sign.EMPTY));
+        firstShip.addFieldsFromBoard(new Field(0,1, Sign.EMPTY), new Field(1,1,Sign.EMPTY));
         secondShip.addFieldsFromBoard(new Field(1,1,Sign.EMPTY), new Field(2,1,Sign.EMPTY));
         //when
         boolean canBePlaced = firstShip.canBePlacedWith(secondShip);

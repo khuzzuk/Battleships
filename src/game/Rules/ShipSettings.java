@@ -1,12 +1,13 @@
-package game;
+package game.rules;
 
-import java.awt.*;
+import game.fleet.ShipType;
+
 import java.util.ArrayList;
 
 /**
  * Created by adrabik on 23.02.16.
  */
-public class ShipPlacement {
+public class ShipSettings {
     public static ArrayList<ShipType> startingShipList() {
         ArrayList<ShipType> shipTypesList = new ArrayList<>();
         shipTypesList.add(ShipType.BB);

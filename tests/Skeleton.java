@@ -1,6 +1,5 @@
 import game.*;
-
-import java.awt.*;
+import game.board.BoardSize;
 
 public class Skeleton {
     public static void main(String[] args) {

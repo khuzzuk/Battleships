@@ -1,12 +1,11 @@
 package Interface.buttons;
 
 import Interface.MainWindow;
-import game.Ship;
-import game.ShipType;
+import game.fleet.Ship;
+import game.fleet.ShipType;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -28,7 +27,7 @@ public class DestroyerButton extends ShipButton {
 
     protected void loadImage() {
         try {
-            image = ImageIO.read(new File(getClass().getClassLoader().getResource("DD.png").getFile()));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("DD.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

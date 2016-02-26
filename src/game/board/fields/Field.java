@@ -1,4 +1,4 @@
-package game;
+package game.board.fields;
 
 import java.awt.*;
 
@@ -68,16 +68,6 @@ public final class Field implements Comparable {
     public boolean markMiss(){
         sign=Sign.MISS;
         return true;
-    }
-
-    public boolean shoot() {
-        if (sign == Sign.EMPTY) {
-            sign = Sign.MISS;
-            return false;
-        } else {
-            sign = Sign.HIT;
-            return true;
-        }
     }
 
     public Sign getStatus() {

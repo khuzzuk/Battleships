@@ -1,10 +1,8 @@
 package Interface.buttons;
 
-import Interface.Listeners.ShootListener;
 import Interface.RenderingOptions;
-import Interface.buttons.PlaceableItem;
-import game.Field;
-import game.Sign;
+import game.board.fields.Field;
+import game.board.fields.Sign;
 
 import javax.swing.*;
 import java.awt.*;

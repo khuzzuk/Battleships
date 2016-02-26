@@ -1,10 +1,11 @@
+package game;
+
 import game.board.BoardSize;
-import game.Game;
 
 /**
  * Created by adrabik on 25.02.16.
  */
-public class SkeletonSwing {
+public class Start {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override

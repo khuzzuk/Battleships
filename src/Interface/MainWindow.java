@@ -3,10 +3,11 @@ package Interface;
 import Interface.Dialogs.DisclosureDialog;
 import Interface.buttons.*;
 import game.*;
+import game.board.fields.Field;
+import game.fleet.Ship;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /**
  * Created by Adrian on 19.02.2016.
@@ -32,8 +33,9 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
         addFields();
         setSize(windowSize);
         DisclosureDialog dialog = new DisclosureDialog();
-        setVisible(true);
+        dialog.setModal(true);
         dialog.setVisible(true);
+        setVisible(true);
     }
 
     protected void showNextShip(){
@@ -52,6 +54,7 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
         for (int x=0; x<boardSize.width; x++){
             for (int y = 0; y < boardSize.height; y++) {
                 buttons[x][y] = new FieldButtonEmpty(new Point(x*20,y*20));
+                buttons[x][y].setFocusable(false);
                 panel.add(buttons[x][y]);
             }
         }
@@ -60,6 +63,7 @@ public abstract class MainWindow extends JFrame implements ClosableWindow {
 
     private void preparePanel() {
         panel = new JPanel(null);
+        panel.setOpaque(true);
         panel.setSize(windowSize);
     }
 

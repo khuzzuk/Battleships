@@ -1,7 +1,7 @@
 package Interface;
 
 import game.Game;
-import game.Ship;
+import game.fleet.Ship;
 
 import java.awt.*;
 
@@ -25,5 +25,6 @@ public class ShipPlacementWindowPlayerTwo extends MainWindow {
         else {
             returnLastShip();
         }
+        repaint();revalidate();
     }
 }
