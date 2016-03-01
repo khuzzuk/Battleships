@@ -17,6 +17,7 @@ public class DisclosureDialog extends JDialog implements GridLayoutSettings {
         GridBagConstraints constr = setupConstraints();
         addLabel(panel, constr);
         okButton(panel, constr);
+        setLocationRelativeTo(null);
         pack();
     }
 

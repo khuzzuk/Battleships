@@ -38,6 +38,7 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow {
         DisclosureDialog dialog = new DisclosureDialog();
         dialog.setModal(true);
         dialog.setVisible(true);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

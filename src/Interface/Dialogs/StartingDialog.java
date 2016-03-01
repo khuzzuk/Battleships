@@ -17,6 +17,7 @@ public class StartingDialog extends JDialog implements GridLayoutSettings {
         addLabel(panel, constr);
         addTextField(panel, constr);
         pack();
+        setLocationRelativeTo(null);
     }
 
     private void addTextField(JPanel panel, GridBagConstraints constr) {

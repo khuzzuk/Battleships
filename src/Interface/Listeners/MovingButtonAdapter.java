@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelEvent;
  */
 public class MovingButtonAdapter extends MouseInputAdapter {
     private ShipButton button;
+    public static ShipButton currentMovingButton;
 
     public MovingButtonAdapter(ShipButton button) {
         this.button = button;
@@ -21,21 +22,23 @@ public class MovingButtonAdapter extends MouseInputAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        currentMovingButton=button;
         if (!button.isEnabled()) return;
         button.relocate(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        currentMovingButton=null;
         if (!button.isEnabled()) return;
         int buttonX = button.getBounds().x;
         int buttonY = button.getBounds().y;
         Dimension shipSize = button.getShipSize();
-        int buttonWidth = shipSize.width;
-        int buttonHeight = shipSize.height;
+        int buttonWidth = shipSize.width/(shipSize.width/PlaceableItem.ITEM_SIZE+1);
+        int buttonHeight = shipSize.height/(shipSize.height/PlaceableItem.ITEM_SIZE+1);
         Point shipLocation = new Point(
-                buttonX+buttonWidth/2 -PlaceableItem.ITEM_SIZE/2,
-                buttonY- buttonHeight/2 +PlaceableItem.ITEM_SIZE);
+                buttonX+buttonWidth ,
+                buttonY+ buttonHeight );
         Point fieldPoint = ShipPlacementWindow.shipPlacementWindow.getNearestFieldLocation(shipLocation, shipSize);
         if (fieldPoint==null){
             button.returnToOriginalPosition();

@@ -17,6 +17,7 @@ public class PlayerShootDialog extends JDialog implements GridLayoutSettings {
         GridBagConstraints constr = setupConstraints();
         addLabel(panel, constr, playerNumber);
         okButton(panel, constr);
+        setLocationRelativeTo(null);
         pack();
     }
 

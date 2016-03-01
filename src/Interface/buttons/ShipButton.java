@@ -72,13 +72,13 @@ public abstract class ShipButton extends JButton implements PlaceableItem {
     public void changeOrientation(){
         if (orientation==Orientation.HORIZONTAL) {
             orientation=Orientation.VERTICAL;
-            position.x+=shipSize.width/3;
-            position.y-=shipSize.height;
+            position.x+=shipSize.width/2-shipSize.width/2/(shipSize.width/PlaceableItem.ITEM_SIZE);
+            position.y-=shipSize.width/2-shipSize.width/2/(shipSize.width/PlaceableItem.ITEM_SIZE);
         }
         else {
             orientation=Orientation.HORIZONTAL;
-            position.x-=shipSize.width;
-            position.y+=shipSize.height/4;
+            position.x-=shipSize.height/2-shipSize.height/2/(shipSize.height/PlaceableItem.ITEM_SIZE);
+            position.y+=shipSize.height/2-shipSize.height/2/(shipSize.height/PlaceableItem.ITEM_SIZE);
         }
         int x = shipSize.width;
         shipSize.width=shipSize.height;
