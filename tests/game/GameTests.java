@@ -1,8 +1,8 @@
 package game;
 
-import game.board.BoardSize;
-import game.player.Player;
-import game.player.PlayerNumber;
+import board.BoardSize;
+import player.Player;
+import player.PlayerNumber;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 

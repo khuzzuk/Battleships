@@ -1,6 +1,6 @@
 package game;
 
-import game.board.BoardSize;
+import board.BoardSize;
 
 public class Start {
     public static void main(String[] args) {

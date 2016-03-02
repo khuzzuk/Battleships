@@ -1,5 +1,5 @@
 import game.*;
-import game.board.BoardSize;
+import board.BoardSize;
 
 public class Skeleton {
     public static void main(String[] args) {

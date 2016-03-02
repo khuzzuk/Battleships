@@ -1,4 +1,4 @@
-import game.board.BoardSize;
+import board.BoardSize;
 import game.Game;
 
 public class SkeletonSwing {

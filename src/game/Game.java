@@ -1,17 +1,22 @@
 package game;
 
-import Interface.*;
-import Interface.Dialogs.PlayerWinDialog;
-import game.board.BoardSize;
-import game.board.fields.Field;
-import game.fleet.Ship;
-import game.player.Player;
-import game.player.PlayerNumber;
+import gameInterface.*;
+import gameInterface.Dialogs.PlayerWinDialog;
+import board.BoardSize;
+import board.fields.Field;
+import fleet.Ship;
+import static messagingHandler.MessageSender.*;
+
+import messagingHandler.Actions.Action;
+import messagingHandler.Actions.NotifyWithBoardSize;
+import messagingHandler.Messages.StartingMessage;
+import messagingHandler.Subscriber;
+import player.Player;
+import player.PlayerNumber;
 
 import java.awt.*;
 
-public class Game {
-
+public class Game implements Subscriber {
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
@@ -20,6 +25,11 @@ public class Game {
     Player currentPlayer;
 
     public Game(BoardSize boardSize) {
+        subscribe();
+        send(new StartingMessage());
+    }
+
+    private void setupGame(BoardSize boardSize) {
         this.boardSize = boardSize;
         playerOne = new Player(boardSize, new PlayerNumber(1));
         playerTwo = new Player(boardSize, new PlayerNumber(2));
@@ -95,5 +105,16 @@ public class Game {
         System.out.println(playerOne);
         System.out.println(playerTwo);
         return this;
+    }
+
+    public void notifySubscriber(NotifyWithBoardSize action) {
+        setupGame(action.getBoardSize());
+    }
+
+    @Override
+    public void notifySubscriber(Action action) {
+        if (action.getClass() == NotifyWithBoardSize.class){
+            notifySubscriber((NotifyWithBoardSize) action);
+        }
     }
 }
