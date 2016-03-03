@@ -7,17 +7,19 @@ import gameInterface.Dialogs.DisclosureDialog;
 import gameInterface.buttons.EmptyFieldButton;
 import gameInterface.buttons.PlaceableItem;
 import gameInterface.buttons.ShipButton;
+import messagingHandler.Actions.NextShipToPlaceAction;
 import messagingHandler.Actions.StartPlacingShipsAction;
 import messagingHandler.GameAdapter;
+import messagingHandler.MessageSender;
+import messagingHandler.Messages.Message;
+import messagingHandler.Messages.ShipPlaced;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 
+import javax.annotation.processing.Messager;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Adrian on 19.02.2016.
- */
 public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subscriber<StartPlacingShipsAction> {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
@@ -38,14 +40,12 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subsc
         boardSize = new Dimension(10,10);
         windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE*6, boardSize.height*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE);
         preparePanel();
-        showNextShip();
         addFields();
         setSize(windowSize);
         setLocationRelativeTo(null);
     }
 
-    protected void showNextShip(){
-        Ship ship = game.nextShipToPlace(player);
+    protected void showNextShip(Ship ship){
         if (ship!=null)
             addShip(ship);
     }
@@ -103,13 +103,7 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subsc
         for (int i = 0; i < points.length; i++) {
             fieldsFromBoard[i] = new Field(points[i].x, points[i].y);
         }
-        if (game.placeShip(ship, player, fieldsFromBoard)){
-            showNextShip();
-        }
-        else {
-            returnLastShip();
-        }
-        repaint();revalidate();
+        MessageSender.send(new ShipPlaced(player, ship, fieldsFromBoard));
     }
 
     protected void returnLastShip() {
@@ -126,4 +120,7 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subsc
         setVisible(true);
     }
 
+    public void notifySubscriber(NextShipToPlaceAction nextShipToPlaceAction) {
+        showNextShip(nextShipToPlaceAction.getShip());
+    }
 }

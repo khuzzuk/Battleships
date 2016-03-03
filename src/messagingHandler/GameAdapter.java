@@ -1,13 +1,7 @@
 package messagingHandler;
 
-import messagingHandler.Actions.Action;
-import messagingHandler.Actions.NotifyWithBoardSize;
-import messagingHandler.Actions.StartPlacingShipsAction;
-import messagingHandler.Actions.StartingAction;
-import messagingHandler.Messages.BoardSizeDecided;
-import messagingHandler.Messages.PlayerStartsPlacingShips;
-import messagingHandler.Messages.ShipPlaced;
-import messagingHandler.Messages.StartingMessage;
+import messagingHandler.Actions.*;
+import messagingHandler.Messages.*;
 import messagingHandler.Subscribers.Subscriber;
 
 import java.util.concurrent.ExecutorService;
@@ -58,6 +52,12 @@ public class GameAdapter {
     }
 
     public GameAdapter receive(ShipPlaced m) {
+        notifySubscribers(new PlaceShipOnBoardAction(m));
+        return this;
+    }
+
+    public GameAdapter receive(NextShipPlaceMessage nextShipPlaceMessage) {
+        notifySubscribers(new NextShipToPlaceAction(nextShipPlaceMessage));
         return this;
     }
 }

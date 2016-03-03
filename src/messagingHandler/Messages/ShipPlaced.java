@@ -1,11 +1,11 @@
 package messagingHandler.Messages;
 
+import board.fields.Field;
 import fleet.Ship;
 import messagingHandler.GameAdapter;
 import player.Player;
 
 import java.awt.*;
-import java.lang.reflect.Field;
 
 public class ShipPlaced implements Message {
     private Field[] shipLocation;
@@ -21,5 +21,17 @@ public class ShipPlaced implements Message {
     @Override
     public void send(GameAdapter receiver) {
         receiver.receive(this);
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Field[] getFields() {
+        return shipLocation;
     }
 }

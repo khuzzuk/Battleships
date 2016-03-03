@@ -8,6 +8,8 @@ import gameInterface.Dialogs.PlayerWinDialog;
 import gameInterface.ShipPlacementWindow;
 import messagingHandler.Actions.GeneralAction;
 import messagingHandler.Actions.NotifyWithBoardSize;
+import messagingHandler.Actions.PlaceShipOnBoardAction;
+import messagingHandler.Messages.NextShipPlaceMessage;
 import messagingHandler.Messages.PlayerStartsPlacingShips;
 import messagingHandler.Messages.StartingMessage;
 import messagingHandler.Subscribers.Subscriber;
@@ -46,7 +48,8 @@ public class Game implements Subscriber<GeneralAction> {
 
 
     public boolean placeShip(Ship ship, Player player, Field... fields) {
-        return player.placeShip(ship,fields);
+        boolean p =player.placeShip(ship,fields);
+        return p;
     }
 
     public Game shootOnPlayerBoard(Point point, Player player) {
@@ -114,5 +117,18 @@ public class Game implements Subscriber<GeneralAction> {
     public void notifySubscriber(NotifyWithBoardSize action){
         setupGame(action.getBoardSize());
         send(new PlayerStartsPlacingShips(this, currentPlayer));
+        send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
+    }
+    public void notifySubscriber(PlaceShipOnBoardAction action){
+        Ship ship = action.getShip();
+        Player player = action.getPlayer();
+        Field[] fields = action.getFields();
+        if (placeShip(ship,player,fields)){
+            Ship nextShip = nextShipToPlace(currentPlayer);
+            send(new NextShipPlaceMessage(nextShip));
+        }
+        else{
+            System.out.println("wrong ship");
+        }
     }
 }
