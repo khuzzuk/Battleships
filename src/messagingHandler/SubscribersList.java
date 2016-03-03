@@ -1,9 +1,10 @@
 package messagingHandler;
 
+import messagingHandler.Subscribers.Subscriber;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class SubscribersList implements Iterable<Subscriber> {
     private List<Subscriber<?>> subscribers;
@@ -22,5 +23,13 @@ public class SubscribersList implements Iterable<Subscriber> {
 
     public int size() {
         return subscribers.size();
+    }
+
+    public void remove(Subscriber<?> subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    public Subscriber<?> get(int i) {
+        return subscribers.get(i);
     }
 }

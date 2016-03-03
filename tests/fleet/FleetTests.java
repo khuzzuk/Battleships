@@ -1,13 +1,10 @@
 package fleet;
 
-import static org.assertj.core.api.Assertions.*;
-
 import board.fields.Field;
-import fleet.Fleet;
-import fleet.Ship;
-import fleet.ShipType;
-import rules.ShipSettings;
 import org.testng.annotations.Test;
+import rules.ShipSettings;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FleetTests {
     @Test

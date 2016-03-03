@@ -1,7 +1,5 @@
 package board.fields;
 
-import board.fields.Field;
-import board.fields.Sign;
 import org.testng.annotations.Test;
 
 import java.awt.*;

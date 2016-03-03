@@ -1,9 +1,9 @@
-import game.*;
 import board.BoardSize;
+import game.Game;
 
 public class Skeleton {
     public static void main(String[] args) {
-        Game game = new Game(new BoardSize(10));
+        Game game = new Game();
         game.start();
             /*.placeShipPlayerOne(new Ship(ShipType.SS), new Field(1,1))
             .placeShipPlayerOne(new Ship(ShipType.DD), new Field(2, 2), new Field(1,2))

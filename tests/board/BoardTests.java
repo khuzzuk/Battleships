@@ -1,11 +1,9 @@
 package board;
 
-import static org.assertj.core.api.Assertions.*;
-
-import board.Board;
-import board.BoardSize;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by adrabik on 23.02.16.

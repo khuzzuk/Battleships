@@ -1,10 +1,15 @@
 package gameInterface;
 
-import gameInterface.Dialogs.DisclosureDialog;
-import gameInterface.buttons.*;
-import game.*;
 import board.fields.Field;
 import fleet.Ship;
+import game.Game;
+import gameInterface.Dialogs.DisclosureDialog;
+import gameInterface.buttons.EmptyFieldButton;
+import gameInterface.buttons.PlaceableItem;
+import gameInterface.buttons.ShipButton;
+import messagingHandler.Actions.StartPlacingShipsAction;
+import messagingHandler.GameAdapter;
+import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 
 import javax.swing.*;
@@ -13,7 +18,7 @@ import java.awt.*;
 /**
  * Created by Adrian on 19.02.2016.
  */
-public class ShipPlacementWindow extends JFrame implements ClosableWindow {
+public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subscriber<StartPlacingShipsAction> {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
@@ -25,6 +30,7 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow {
 
     public ShipPlacementWindow(Game game, Player player) {
         super();
+        subscribe();
         shipPlacementWindow = this;
         this.player = player;
         this.game = game;
@@ -35,11 +41,7 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow {
         showNextShip();
         addFields();
         setSize(windowSize);
-        DisclosureDialog dialog = new DisclosureDialog();
-        dialog.setModal(true);
-        dialog.setVisible(true);
         setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     protected void showNextShip(){
@@ -115,4 +117,13 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow {
         b.returnToOriginalPosition();
         b.setEnabled(true);
     }
+
+    @Override
+    public void notifySubscriber(StartPlacingShipsAction action) {
+        DisclosureDialog dialog = new DisclosureDialog();
+        dialog.setModal(true);
+        dialog.setVisible(true);
+        setVisible(true);
+    }
+
 }

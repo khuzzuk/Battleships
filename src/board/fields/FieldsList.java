@@ -1,6 +1,9 @@
 package board.fields;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Created by adrabik on 24.02.16.

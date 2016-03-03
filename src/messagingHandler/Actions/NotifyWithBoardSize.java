@@ -2,11 +2,10 @@ package messagingHandler.Actions;
 
 import board.BoardSize;
 import game.Game;
-import messagingHandler.GameAdapter;
 import messagingHandler.Messages.BoardSizeDecided;
-import messagingHandler.Subscriber;
+import messagingHandler.Subscribers.Subscriber;
 
-public class NotifyWithBoardSize implements Action{
+public class NotifyWithBoardSize extends GeneralAction implements Action {
 
     private BoardSize boardSize;
 
@@ -19,7 +18,10 @@ public class NotifyWithBoardSize implements Action{
     }
 
     @Override
-    public void notify(Subscriber<?> sub) {
+    public void sendToSubscriber(Subscriber<?> sub) {
+        if (sub.getClass()== Game.class) sendHelper((Game) sub);
+    }
+    private void sendHelper(Game sub){
         sub.notifySubscriber(this);
     }
 }

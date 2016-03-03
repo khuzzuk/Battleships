@@ -6,7 +6,7 @@ public class SkeletonSwing {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Game game = new Game(new BoardSize(10));
+                Game game = new Game();
             }
         });
     }

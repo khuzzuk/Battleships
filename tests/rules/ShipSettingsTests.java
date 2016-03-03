@@ -1,12 +1,11 @@
 package rules;
 
-import static org.assertj.core.api.Assertions.*;
-
-import rules.ShipSettings;
 import fleet.ShipType;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ShipSettingsTests {
     @Test

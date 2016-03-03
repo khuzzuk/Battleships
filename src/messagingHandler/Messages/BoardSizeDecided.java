@@ -14,7 +14,7 @@ public class BoardSizeDecided implements Message {
     }
 
     @Override
-    public void send() {
-        GameAdapter.getInstance().receive(this);
+    public void send(GameAdapter receiver) {
+        receiver.receive(this);
     }
 }

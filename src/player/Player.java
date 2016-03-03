@@ -1,14 +1,14 @@
 package player;
 
-import rules.Shoot;
 import board.Board;
 import board.BoardSize;
 import board.fields.Field;
 import board.fields.FieldsList;
 import fleet.Fleet;
 import fleet.Ship;
-import rules.ShipSettings;
 import fleet.ShipType;
+import rules.ShipSettings;
+import rules.Shoot;
 
 import java.awt.*;
 import java.util.List;

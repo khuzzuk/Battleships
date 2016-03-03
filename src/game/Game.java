@@ -1,22 +1,24 @@
 package game;
 
-import gameInterface.*;
-import gameInterface.Dialogs.PlayerWinDialog;
 import board.BoardSize;
 import board.fields.Field;
 import fleet.Ship;
-import static messagingHandler.MessageSender.*;
-
-import messagingHandler.Actions.Action;
+import gameInterface.BoardWindow;
+import gameInterface.Dialogs.PlayerWinDialog;
+import gameInterface.ShipPlacementWindow;
+import messagingHandler.Actions.GeneralAction;
 import messagingHandler.Actions.NotifyWithBoardSize;
+import messagingHandler.Messages.PlayerStartsPlacingShips;
 import messagingHandler.Messages.StartingMessage;
-import messagingHandler.Subscriber;
+import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 import player.PlayerNumber;
 
 import java.awt.*;
 
-public class Game implements Subscriber {
+import static messagingHandler.MessageSender.send;
+
+public class Game implements Subscriber<GeneralAction> {
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
@@ -24,17 +26,16 @@ public class Game implements Subscriber {
     BoardWindow boardWindow;
     Player currentPlayer;
 
-    public Game(BoardSize boardSize) {
+    public Game() {
         subscribe();
         send(new StartingMessage());
     }
 
-    private void setupGame(BoardSize boardSize) {
+    void setupGame(BoardSize boardSize) {
         this.boardSize = boardSize;
         playerOne = new Player(boardSize, new PlayerNumber(1));
         playerTwo = new Player(boardSize, new PlayerNumber(2));
         currentPlayer = playerOne;
-        shipPlacementWindow = new ShipPlacementWindow(this, playerOne);
     }
 
     public Game start() {
@@ -107,14 +108,11 @@ public class Game implements Subscriber {
         return this;
     }
 
-    public void notifySubscriber(NotifyWithBoardSize action) {
-        setupGame(action.getBoardSize());
-    }
-
     @Override
-    public void notifySubscriber(Action action) {
-        if (action.getClass() == NotifyWithBoardSize.class){
-            notifySubscriber((NotifyWithBoardSize) action);
-        }
+    public void notifySubscriber(GeneralAction action) {
+    }
+    public void notifySubscriber(NotifyWithBoardSize action){
+        setupGame(action.getBoardSize());
+        send(new PlayerStartsPlacingShips(this, currentPlayer));
     }
 }

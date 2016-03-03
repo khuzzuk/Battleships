@@ -1,7 +1,7 @@
 package messagingHandler.Actions;
 
-import messagingHandler.Subscriber;
+import messagingHandler.Subscribers.Subscriber;
 
 public interface Action {
-    void notify(Subscriber<?> sub);
+    void sendToSubscriber(Subscriber<?> sub);
 }

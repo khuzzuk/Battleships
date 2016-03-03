@@ -1,8 +1,8 @@
 package gameInterface.buttons;
 
-import gameInterface.ShipPlacementWindow;
 import fleet.Ship;
 import fleet.ShipType;
+import gameInterface.ShipPlacementWindow;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

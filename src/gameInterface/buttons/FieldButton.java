@@ -1,8 +1,8 @@
 package gameInterface.buttons;
 
-import gameInterface.RenderingOptions;
 import board.fields.Field;
 import board.fields.Sign;
+import gameInterface.RenderingOptions;
 
 import javax.swing.*;
 import java.awt.*;

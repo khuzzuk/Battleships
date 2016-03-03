@@ -2,12 +2,20 @@ package messagingHandler;
 
 import messagingHandler.Actions.Action;
 import messagingHandler.Actions.NotifyWithBoardSize;
+import messagingHandler.Actions.StartPlacingShipsAction;
 import messagingHandler.Actions.StartingAction;
 import messagingHandler.Messages.BoardSizeDecided;
+import messagingHandler.Messages.PlayerStartsPlacingShips;
+import messagingHandler.Messages.ShipPlaced;
 import messagingHandler.Messages.StartingMessage;
+import messagingHandler.Subscribers.Subscriber;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GameAdapter {
-    private static GameAdapter mainAdapter = new GameAdapter();
+    private static final GameAdapter mainAdapter = new GameAdapter();
+    private final ExecutorService threads;
     private SubscribersList subscribers;
 
     public static GameAdapter getInstance() {
@@ -16,16 +24,17 @@ public class GameAdapter {
 
     private GameAdapter() {
         subscribers = new SubscribersList();
+        threads = Executors.newFixedThreadPool(10);
     }
 
     public boolean addSubscriber(Subscriber subscriber){
         return subscribers.add(subscriber);
     }
 
-    private void notifySubscribers(Action action){
-        if (subscribers.size()==0) action.notify(null);
-        for (Subscriber sub : subscribers) {
-            action.notify(sub);
+    private synchronized void notifySubscribers(Action action){
+        if (subscribers.size()==0) action.sendToSubscriber(null);
+        for (Subscriber sub:subscribers) {
+            threads.submit(() -> action.sendToSubscriber(sub));
         }
     }
 
@@ -36,6 +45,19 @@ public class GameAdapter {
 
     public GameAdapter receive(BoardSizeDecided boardSizeDecided) {
         notifySubscribers(new NotifyWithBoardSize(boardSizeDecided));
+        return this;
+    }
+
+    public GameAdapter receive(PlayerStartsPlacingShips m){
+        notifySubscribers(new StartPlacingShipsAction());
+        return this;
+    }
+
+    public void removeSubscriber(Subscriber<?> subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    public GameAdapter receive(ShipPlaced m) {
         return this;
     }
 }

@@ -1,12 +1,12 @@
 package gameInterface;
 
-import gameInterface.Listeners.ShootListener;
-import gameInterface.buttons.FieldButton;
-import gameInterface.buttons.PlaceableItem;
-import game.*;
 import board.BoardSize;
 import board.fields.Field;
 import board.fields.FieldsList;
+import game.Game;
+import gameInterface.Listeners.ShootListener;
+import gameInterface.buttons.FieldButton;
+import gameInterface.buttons.PlaceableItem;
 import player.Player;
 
 import javax.swing.*;

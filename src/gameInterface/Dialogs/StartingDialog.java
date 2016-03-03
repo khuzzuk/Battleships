@@ -6,7 +6,6 @@ import messagingHandler.Messages.BoardSizeDecided;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.text.NumberFormat;
 import java.text.ParseException;
 
 public class StartingDialog extends JDialog implements GridLayoutSettings {
@@ -32,8 +31,8 @@ public class StartingDialog extends JDialog implements GridLayoutSettings {
         textField.addActionListener(e -> {
             System.out.println(textField.getValue().toString());
             int boardSize = Integer.parseInt(textField.getValue().toString());
-            MessageSender.send(new BoardSizeDecided(boardSize));
             dispose();
+            MessageSender.send(new BoardSizeDecided(boardSize));
         });
         constr.gridy++;
         panel.add(textField,constr);

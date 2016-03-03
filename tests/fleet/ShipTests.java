@@ -1,9 +1,7 @@
 package fleet;
 
-import board.fields.Sign;
 import board.fields.Field;
-import fleet.Ship;
-import fleet.ShipType;
+import board.fields.Sign;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

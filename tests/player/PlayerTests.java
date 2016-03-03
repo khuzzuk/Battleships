@@ -1,11 +1,8 @@
 package player;
 
 import board.BoardSize;
-
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
-import player.Player;
-import player.PlayerNumber;
 
 /**
  * Created by Adrian_Drabik on 2/26/2016.

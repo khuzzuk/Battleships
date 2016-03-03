@@ -1,10 +1,10 @@
 package gameInterface.buttons;
 
-import gameInterface.Listeners.MovingButtonAdapter;
-import gameInterface.ShipPlacementWindow;
-import gameInterface.Orientation;
 import fleet.Ship;
 import fleet.ShipType;
+import gameInterface.Listeners.MovingButtonAdapter;
+import gameInterface.Orientation;
+import gameInterface.ShipPlacementWindow;
 
 import javax.swing.*;
 import java.awt.*;
