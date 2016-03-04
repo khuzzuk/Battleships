@@ -25,7 +25,7 @@ public class MessageWorker implements MessageExecutor<Runnable, BlockingQueue<Ru
                     }
                 }
                 else{
-
+                    currentTask.run();
                 }
             }
         }

@@ -10,7 +10,7 @@ public class NotifyWithBoardSize extends GeneralAction implements Action {
     private BoardSize boardSize;
 
     public NotifyWithBoardSize(BoardSizeDecided message) {
-        boardSize = new BoardSize(message.getBoardSize());
+        boardSize = message.getBoardSize();
     }
 
     public BoardSize getBoardSize() {
@@ -18,10 +18,11 @@ public class NotifyWithBoardSize extends GeneralAction implements Action {
     }
 
     @Override
-    public void sendToSubscriber(Subscriber<?> sub) {
-        if (sub.getClass()== Game.class) sendHelper((Game) sub);
+    public void activateMessage() {
+
     }
+
     private void sendHelper(Game sub){
-        sub.notifySubscriber(this);
+
     }
 }

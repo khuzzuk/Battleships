@@ -12,6 +12,8 @@ import messagingHandler.Actions.StartPlacingShipsAction;
 import messagingHandler.GameAdapter;
 import messagingHandler.MessageSender;
 import messagingHandler.Messages.Message;
+import messagingHandler.Messages.NextShipPlaceMessage;
+import messagingHandler.Messages.PlayerStartsPlacingShips;
 import messagingHandler.Messages.ShipPlaced;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
@@ -20,7 +22,7 @@ import javax.annotation.processing.Messager;
 import javax.swing.*;
 import java.awt.*;
 
-public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subscriber<StartPlacingShipsAction> {
+public class ShipPlacementWindow <T extends Message> extends JFrame implements ClosableWindow, Subscriber<T> {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
@@ -32,7 +34,8 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subsc
 
     public ShipPlacementWindow(Game game, Player player) {
         super();
-        subscribe();
+        subscribe(PlayerStartsPlacingShips.class);
+        subscribe(NextShipPlaceMessage.class);
         shipPlacementWindow = this;
         this.player = player;
         this.game = game;
@@ -113,14 +116,21 @@ public class ShipPlacementWindow extends JFrame implements ClosableWindow, Subsc
     }
 
     @Override
-    public void notifySubscriber(StartPlacingShipsAction action) {
+    public void receiveMessage(T message) {
+        if (message.getClass()==NextShipPlaceMessage.class)
+            receiveMessage((NextShipPlaceMessage) message);
+        if (message.getClass()==PlayerStartsPlacingShips.class)
+            receiveMessage((PlayerStartsPlacingShips) message);
+    }
+
+    public void receiveMessage(PlayerStartsPlacingShips message) {
         DisclosureDialog dialog = new DisclosureDialog();
         dialog.setModal(true);
         dialog.setVisible(true);
         setVisible(true);
     }
 
-    public void notifySubscriber(NextShipToPlaceAction nextShipToPlaceAction) {
+    public void receiveMessage(NextShipPlaceMessage nextShipToPlaceAction) {
         showNextShip(nextShipToPlaceAction.getShip());
     }
 }

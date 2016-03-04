@@ -1,24 +1,25 @@
 package messagingHandler.Subscribers;
 
-import messagingHandler.Subscribers.Subscriber;
+import messagingHandler.Messages.Message;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-public class SubscribersList implements Iterable<Subscriber> {
-    private List<Subscriber<?>> subscribers;
+public class SubscribersList {
+    private Map<Class<?>, List<Subscriber<?>>> subscribers;
 
     public SubscribersList() {
-        subscribers = new ArrayList<>();
+        subscribers = new HashMap<>();
     }
-    public boolean add(Subscriber<?> subscriber){
-        return subscribers.add(subscriber);
+    public void add(Class<?> typeOfMessages, Subscriber<?> subscriber){
+        List<Subscriber<?>> subsList = subscribers.get(typeOfMessages);
+        if (subsList==null) subsList = new ArrayList<>();
+        subsList.add(subscriber);
+        subscribers.put(typeOfMessages, subsList);
     }
 
-    @Override
-    public Iterator iterator() {
-        return subscribers.iterator();
+    public Iterator<Subscriber<?>> iterator(Class<?> typeOfMessage) {
+        List<Subscriber<?>> list = subscribers.get(typeOfMessage);
+        return list.iterator();
     }
 
     public int size() {
@@ -29,7 +30,18 @@ public class SubscribersList implements Iterable<Subscriber> {
         subscribers.remove(subscriber);
     }
 
-    public Subscriber<?> get(int i) {
-        return subscribers.get(i);
+    public List<Subscriber<?>> get(Class<?> typeOfMessage) {
+        return subscribers.get(typeOfMessage);
+    }
+
+    public void send(Message m) {
+        List<Subscriber<?>> subsList = subscribers.get(m.getClass());
+        if (subsList==null) return;
+        for (Subscriber sub : subsList) {
+            sendHelper(m, sub);
+        }
+    }
+    private <T extends Message, U extends Subscriber<? super T>> void sendHelper(T message, U sub){
+        sub.receiveMessage(message);
     }
 }

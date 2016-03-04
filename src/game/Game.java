@@ -1,5 +1,6 @@
 package game;
 
+import board.Board;
 import board.BoardSize;
 import board.fields.Field;
 import fleet.Ship;
@@ -9,9 +10,7 @@ import gameInterface.ShipPlacementWindow;
 import messagingHandler.Actions.GeneralAction;
 import messagingHandler.Actions.NotifyWithBoardSize;
 import messagingHandler.Actions.PlaceShipOnBoardAction;
-import messagingHandler.Messages.NextShipPlaceMessage;
-import messagingHandler.Messages.PlayerStartsPlacingShips;
-import messagingHandler.Messages.StartingMessage;
+import messagingHandler.Messages.*;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 import player.PlayerNumber;
@@ -20,7 +19,7 @@ import java.awt.*;
 
 import static messagingHandler.MessageSender.send;
 
-public class Game implements Subscriber<GeneralAction> {
+public class Game <T extends Message> implements Subscriber<T> {
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
@@ -29,7 +28,7 @@ public class Game implements Subscriber<GeneralAction> {
     Player currentPlayer;
 
     public Game() {
-        subscribe();
+        subscribe(BoardSizeDecided.class);
         send(new StartingMessage());
     }
 
@@ -112,14 +111,16 @@ public class Game implements Subscriber<GeneralAction> {
     }
 
     @Override
-    public void notifySubscriber(GeneralAction action) {
+    public void receiveMessage(T message) {
+        if (message.getClass()==BoardSizeDecided.class)
+            receiveMessage((BoardSizeDecided) message);
     }
-    public void notifySubscriber(NotifyWithBoardSize action){
-        setupGame(action.getBoardSize());
+    public void receiveMessage(BoardSizeDecided message){
+        setupGame(message.getBoardSize());
         send(new PlayerStartsPlacingShips(this, currentPlayer));
         send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
     }
-    public void notifySubscriber(PlaceShipOnBoardAction action){
+    public void receiveMessage(PlaceShipOnBoardAction action){
         Ship ship = action.getShip();
         Player player = action.getPlayer();
         Field[] fields = action.getFields();

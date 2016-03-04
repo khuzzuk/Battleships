@@ -5,8 +5,6 @@ import fleet.Ship;
 import messagingHandler.GameAdapter;
 import player.Player;
 
-import java.awt.*;
-
 public class ShipPlaced implements Message {
     private Field[] shipLocation;
     private Ship ship;
@@ -19,8 +17,8 @@ public class ShipPlaced implements Message {
     }
 
     @Override
-    public void send(GameAdapter receiver) {
-        receiver.receive(this);
+    public void send(GameAdapter adapter) {
+        adapter.offer(this);
     }
 
     public Ship getShip() {

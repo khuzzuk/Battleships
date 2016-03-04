@@ -4,15 +4,13 @@ import messagingHandler.Actions.Action;
 
 public class ActionActivator implements Runnable{
     private Action action;
-    private Subscriber<?> sub;
 
-    public ActionActivator(Action action, Subscriber<?> sub) {
+    public ActionActivator(Action action) {
         this.action = action;
-        this.sub = sub;
     }
 
     @Override
     public void run() {
-        action.sendToSubscriber(sub);
+        action.activateMessage();
     }
 }

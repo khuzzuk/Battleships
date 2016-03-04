@@ -14,7 +14,7 @@ public class NextShipPlaceMessage implements Message {
     }
 
     @Override
-    public void send(GameAdapter receiver) {
-        receiver.receive(this);
+    public void send(GameAdapter adapter) {
+        adapter.offer(this);
     }
 }

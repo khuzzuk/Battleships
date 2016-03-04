@@ -1,5 +1,6 @@
 package messagingHandler.Messages;
 
+import board.BoardSize;
 import messagingHandler.GameAdapter;
 
 public class BoardSizeDecided implements Message {
@@ -9,12 +10,12 @@ public class BoardSizeDecided implements Message {
         this.boardSize = boardSize;
     }
 
-    public int getBoardSize() {
-        return boardSize;
+    public BoardSize getBoardSize() {
+        return new BoardSize(boardSize);
     }
 
     @Override
-    public void send(GameAdapter receiver) {
-        receiver.receive(this);
+    public void send(GameAdapter adapter) {
+        adapter.offer(this);
     }
 }

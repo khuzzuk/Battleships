@@ -25,12 +25,12 @@ public class PlaceShipOnBoardAction extends GeneralAction implements Action {
     }
 
     @Override
-    public void sendToSubscriber(Subscriber<?> sub) {
-        if (sub.getClass()==Game.class)
-            sendHelper((Game) sub);
+    public void activateMessage() {
+
     }
+
     private void sendHelper(Game sub){
-        sub.notifySubscriber(this);
+
     }
 
     public Ship getShip() {

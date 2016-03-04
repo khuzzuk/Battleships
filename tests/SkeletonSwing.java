@@ -3,11 +3,6 @@ import game.Game;
 
 public class SkeletonSwing {
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Game game = new Game();
-            }
-        });
+        Game game = new Game();
     }
 }
