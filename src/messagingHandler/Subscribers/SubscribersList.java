@@ -1,4 +1,4 @@
-package messagingHandler;
+package messagingHandler.Subscribers;
 
 import messagingHandler.Subscribers.Subscriber;
 

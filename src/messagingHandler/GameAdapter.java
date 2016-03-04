@@ -2,15 +2,17 @@ package messagingHandler;
 
 import messagingHandler.Actions.*;
 import messagingHandler.Messages.*;
+import messagingHandler.Subscribers.ActionActivator;
 import messagingHandler.Subscribers.Subscriber;
+import messagingHandler.Subscribers.SubscribersList;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class GameAdapter {
     private static final GameAdapter mainAdapter = new GameAdapter();
-    private final ExecutorService threads;
     private SubscribersList subscribers;
+    private BlockingQueue<Runnable> channel = new ArrayBlockingQueue<>(100);
 
     public static GameAdapter getInstance() {
         return mainAdapter;
@@ -18,22 +20,22 @@ public class GameAdapter {
 
     private GameAdapter() {
         subscribers = new SubscribersList();
-        threads = Executors.newFixedThreadPool(10);
     }
 
-    public boolean addSubscriber(Subscriber subscriber){
+    public boolean addSubscriber(Subscriber subscriber) {
         return subscribers.add(subscriber);
     }
 
-    private synchronized void notifySubscribers(Action action){
-        if (subscribers.size()==0) action.sendToSubscriber(null);
-        for (Subscriber sub:subscribers) {
-            threads.submit(() -> action.sendToSubscriber(sub));
+    private synchronized void notifySubscribers(Action action) {
+        for (Subscriber<?> sub : subscribers) {
+            channel.add(new ActionActivator(action, sub));
         }
     }
 
-    public GameAdapter receive(StartingMessage m){
-        notifySubscribers(new StartingAction());
+    public GameAdapter receive(StartingMessage m) {
+        new MessageWorker(channel).activate();
+        ActionActivator activator = new ActionActivator(new StartingAction(), null);
+        channel.offer(activator);
         return this;
     }
 
@@ -42,7 +44,7 @@ public class GameAdapter {
         return this;
     }
 
-    public GameAdapter receive(PlayerStartsPlacingShips m){
+    public GameAdapter receive(PlayerStartsPlacingShips m) {
         notifySubscribers(new StartPlacingShipsAction());
         return this;
     }
