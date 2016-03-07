@@ -14,8 +14,4 @@ public class BoardSizeDecided implements Message {
         return new BoardSize(boardSize);
     }
 
-    @Override
-    public void send(GameAdapter adapter) {
-        adapter.offer(this);
-    }
 }

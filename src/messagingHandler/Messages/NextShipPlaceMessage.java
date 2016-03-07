@@ -13,8 +13,4 @@ public class NextShipPlaceMessage implements Message {
         return ship;
     }
 
-    @Override
-    public void send(GameAdapter adapter) {
-        adapter.offer(this);
-    }
 }

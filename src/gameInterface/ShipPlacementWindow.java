@@ -7,20 +7,16 @@ import gameInterface.Dialogs.DisclosureDialog;
 import gameInterface.buttons.EmptyFieldButton;
 import gameInterface.buttons.PlaceableItem;
 import gameInterface.buttons.ShipButton;
-import messagingHandler.Actions.NextShipToPlaceAction;
-import messagingHandler.Actions.StartPlacingShipsAction;
 import messagingHandler.GameAdapter;
 import messagingHandler.MessageSender;
-import messagingHandler.Messages.Message;
-import messagingHandler.Messages.NextShipPlaceMessage;
-import messagingHandler.Messages.PlayerStartsPlacingShips;
-import messagingHandler.Messages.ShipPlaced;
+import messagingHandler.Messages.*;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 
-import javax.annotation.processing.Messager;
 import javax.swing.*;
 import java.awt.*;
+
+import static messagingHandler.MessageSender.send;
 
 public class ShipPlacementWindow <T extends Message> extends JFrame implements ClosableWindow, Subscriber<T> {
     public static ShipPlacementWindow shipPlacementWindow;
@@ -36,6 +32,8 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
         super();
         subscribe(PlayerStartsPlacingShips.class);
         subscribe(NextShipPlaceMessage.class);
+        subscribe(FinishPlacingShipForPlayer.class);
+        subscribe(WrongShipPositionMessage.class);
         shipPlacementWindow = this;
         this.player = player;
         this.game = game;
@@ -51,6 +49,7 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     protected void showNextShip(Ship ship){
         if (ship!=null)
             addShip(ship);
+        repaint();revalidate();
     }
 
     protected void addShip(Ship ship) {
@@ -102,11 +101,7 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     }
 
     public void placeShipOnBoard(Ship ship, Point... points) {
-        fieldsFromBoard = new Field[points.length];
-        for (int i = 0; i < points.length; i++) {
-            fieldsFromBoard[i] = new Field(points[i].x, points[i].y);
-        }
-        MessageSender.send(new ShipPlaced(player, ship, fieldsFromBoard));
+        MessageSender.send(new ShipPlaced(player, ship, points));
     }
 
     protected void returnLastShip() {
@@ -119,8 +114,12 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     public void receiveMessage(T message) {
         if (message.getClass()==NextShipPlaceMessage.class)
             receiveMessage((NextShipPlaceMessage) message);
-        if (message.getClass()==PlayerStartsPlacingShips.class)
+        else if (message.getClass()==PlayerStartsPlacingShips.class)
             receiveMessage((PlayerStartsPlacingShips) message);
+        else if (message.getClass()==FinishPlacingShipForPlayer.class)
+            receiveMessage((FinishPlacingShipForPlayer) message);
+        else if (message.getClass()==WrongShipPositionMessage.class)
+            receiveMessage((WrongShipPositionMessage) message);
     }
 
     public void receiveMessage(PlayerStartsPlacingShips message) {
@@ -130,7 +129,16 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
         setVisible(true);
     }
 
+    public void receiveMessage(FinishPlacingShipForPlayer message){
+        setVisible(false);
+        send(new RemoveSubscriberMessage(this));
+        dispose();
+    }
+
     public void receiveMessage(NextShipPlaceMessage nextShipToPlaceAction) {
         showNextShip(nextShipToPlaceAction.getShip());
+    }
+    public void receiveMessage(WrongShipPositionMessage message){
+        returnLastShip();
     }
 }

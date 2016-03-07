@@ -1,6 +1,5 @@
 package messagingHandler.Subscribers;
 
-import messagingHandler.Actions.Action;
 import messagingHandler.GameAdapter;
 import messagingHandler.Messages.Message;
 

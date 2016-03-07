@@ -7,6 +7,6 @@ public class MessageSender {
     }
 
     public static void send(Message m) {
-        m.send(GameAdapter.getInstance());
+        GameAdapter.getInstance().offer(m);
     }
 }

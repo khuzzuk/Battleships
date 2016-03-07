@@ -1,15 +1,10 @@
 package game;
 
-import board.Board;
 import board.BoardSize;
 import board.fields.Field;
 import fleet.Ship;
 import gameInterface.BoardWindow;
 import gameInterface.Dialogs.PlayerWinDialog;
-import gameInterface.ShipPlacementWindow;
-import messagingHandler.Actions.GeneralAction;
-import messagingHandler.Actions.NotifyWithBoardSize;
-import messagingHandler.Actions.PlaceShipOnBoardAction;
 import messagingHandler.Messages.*;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
@@ -23,13 +18,18 @@ public class Game <T extends Message> implements Subscriber<T> {
     BoardSize boardSize;
     Player playerOne;
     Player playerTwo;
-    ShipPlacementWindow shipPlacementWindow;
     BoardWindow boardWindow;
     Player currentPlayer;
 
     public Game() {
-        subscribe(BoardSizeDecided.class);
+        makeSubscriptions();
         send(new StartingMessage());
+    }
+
+    private void makeSubscriptions(){
+        subscribe(BoardSizeDecided.class);
+        subscribe(ShipPlaced.class);
+        subscribe(SwapPlayerPlacingShipMessage.class);
     }
 
     void setupGame(BoardSize boardSize) {
@@ -75,18 +75,21 @@ public class Game <T extends Message> implements Subscriber<T> {
     public Ship nextShipToPlace(Player player) {
         Ship ship = player.getShipToPlaceOnBoard();
         if (ship==null) {
-            if (currentPlayer.equals(playerOne)){
-                shipPlacementWindow.dispose();
-                shipPlacementWindow = new ShipPlacementWindow(this,playerTwo);
-                currentPlayer = playerTwo;
-            }
-            else startShootingSequence();
         }
         return ship;
     }
+    private void swapPlacingShipPlayer(){
+        if (currentPlayer.equals(playerOne)){
+            currentPlayer = playerTwo;
+            send(new FinishPlacingShipForPlayer());
+            send(new PlayerStartsPlacingShips(this,currentPlayer));
+            send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
+        }
+        else startShootingSequence();
+    }
 
     private void startShootingSequence() {
-        shipPlacementWindow.dispose();
+        send(new FinishPlacingShipForPlayer());
         boardWindow = new BoardWindow(this, playerOne, playerTwo);
         boardWindow.setVisible(true);
         currentPlayer=playerOne;
@@ -114,22 +117,32 @@ public class Game <T extends Message> implements Subscriber<T> {
     public void receiveMessage(T message) {
         if (message.getClass()==BoardSizeDecided.class)
             receiveMessage((BoardSizeDecided) message);
+        else if (message.getClass()==ShipPlaced.class)
+            receiveMessage((ShipPlaced) message);
+        else if (message.getClass()==SwapPlayerPlacingShipMessage.class){
+            receiveMessage((SwapPlayerPlacingShipMessage) message);
+        }
     }
     public void receiveMessage(BoardSizeDecided message){
         setupGame(message.getBoardSize());
         send(new PlayerStartsPlacingShips(this, currentPlayer));
         send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
     }
-    public void receiveMessage(PlaceShipOnBoardAction action){
-        Ship ship = action.getShip();
-        Player player = action.getPlayer();
-        Field[] fields = action.getFields();
+    public void receiveMessage(ShipPlaced message){
+        Ship ship = message.getShip();
+        Player player = message.getPlayer();
+        Field[] fields = message.getFields();
         if (placeShip(ship,player,fields)){
             Ship nextShip = nextShipToPlace(currentPlayer);
-            send(new NextShipPlaceMessage(nextShip));
+            if (nextShip!=null)
+                send(new NextShipPlaceMessage(nextShip));
+            else send(new SwapPlayerPlacingShipMessage());
         }
         else{
-            System.out.println("wrong ship");
+            send(new WrongShipPositionMessage());
         }
+    }
+    public void receiveMessage(SwapPlayerPlacingShipMessage m){
+        swapPlacingShipPlayer();
     }
 }

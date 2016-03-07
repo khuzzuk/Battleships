@@ -16,8 +16,4 @@ public class PlayerStartsPlacingShips implements Message {
         });
     }
 
-    @Override
-    public void send(GameAdapter adapter) {
-        adapter.offer(this);
-    }
 }

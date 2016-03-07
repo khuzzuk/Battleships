@@ -12,8 +12,4 @@ public class StartingMessage implements Message, Action {
         StartingDialog dialog = new StartingDialog();
         dialog.setVisible(true);
     }
-    @Override
-    public void send(GameAdapter adapter) {
-        adapter.offer(this);
-    }
 }
