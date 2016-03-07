@@ -1,6 +1,7 @@
 package board.fields;
 
 import java.awt.*;
+import java.util.function.Function;
 
 /**
  * Created by adrabik on 23.02.16.
@@ -22,7 +23,7 @@ public final class Field implements Comparable {
 
     @Override
     public String toString() {
-        return sign.toString();
+        return position.x+"x"+position.y+" - "+sign;
     }
 
     public void markShip() {
@@ -72,5 +73,18 @@ public final class Field implements Comparable {
 
     public Sign getStatus() {
         return sign;
+    }
+
+    public static int compareToX(Field field, Field otherField) {
+        return field.position.x-otherField.position.x;
+    }
+    public static int compareToY(Field field, Field otherField) {
+        return field.position.y-otherField.position.y;
+    }
+    public int getPositionX(){
+        return position.x;
+    }
+    public int getPositionY(){
+        return position.y;
     }
 }
