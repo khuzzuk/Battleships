@@ -1,11 +1,11 @@
 package board.fields;
 
-import java.awt.*;
-import java.util.function.Function;
+import rules.AdjacencyRules;
 
-/**
- * Created by adrabik on 23.02.16.
- */
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Field implements Comparable {
     final Point position;
     Sign sign;
@@ -30,9 +30,19 @@ public final class Field implements Comparable {
         sign = Sign.SHIP;
     }
     public boolean isAdjacent(Field otherField){
-        if (Math.abs(position.x-otherField.position.x)<=1 &&
-                Math.abs(position.y-otherField.position.y)<=1) return true;
-        return false;
+        return (Math.abs(position.x-otherField.position.x)<=1 &&
+                Math.abs(position.y-otherField.position.y)<=1);
+    }
+    public List<Point> getAdjacentPositions(){
+        List<Point> list = new ArrayList<>();
+        int a = AdjacencyRules.ADJACENCY_DISTANCE;
+        for (int x = -a; x <= a; x++) {
+            for (int y =-a; y <= a; y++) {
+                list.add(new Point(x,y));
+            }
+        }
+        list.remove(position);
+        return list;
     }
 
     @Override
@@ -47,7 +57,7 @@ public final class Field implements Comparable {
 
     @Override
     public int hashCode() {
-        return position.hashCode();
+        return position.x;
     }
 
     @Override

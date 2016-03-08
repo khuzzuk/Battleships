@@ -12,7 +12,7 @@ public class FieldsList {
     private Set<Field> fieldList;
 
     public FieldsList(int size) {
-        fieldList = new HashSet<>();
+        fieldList = new HashSet<>(size);
         for (int x = 0; x < size * size; x++) {
             fieldList.add(new Field(x%10, x/10));
         }

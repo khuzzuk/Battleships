@@ -1,6 +1,5 @@
 package messagingHandler;
 
-import messagingHandler.Messages.FinishPlacingShipForPlayer;
 import messagingHandler.Messages.HighPriorityMessage;
 import messagingHandler.Messages.Message;
 import messagingHandler.Messages.StartingMessage;
@@ -39,23 +38,7 @@ public class GameAdapter {
         else channel.offer(new MessageActivator(m, subscribers));
     }
 
-    /*public GameAdapter offer(BoardSizeDecided boardSizeDecided) {
-        notifySubscribers(boardSizeDecided);
-        return this;
-    }*/
-
-    /*public GameAdapter offer(PlayerStartsPlacingShips m) {
-        notifySubscribers(new StartPlacingShipsAction());
-        return this;
-    }*/
-
     public void removeSubscriber(Subscriber<?> subscriber) {
         subscribers.remove(subscriber);
     }
-
-    /*public GameAdapter offer(ShipPlaced m) {
-        notifySubscribers(new PlaceShipOnBoardAction(m));
-        return this;
-    }*/
-
 }
