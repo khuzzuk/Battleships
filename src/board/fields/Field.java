@@ -1,5 +1,6 @@
 package board.fields;
 
+import board.BoardSize;
 import rules.AdjacencyRules;
 
 import java.awt.*;
@@ -17,32 +18,44 @@ public final class Field implements Comparable {
     }
 
     public Field(int x, int y) {
-        position = new Point(x,y);
-        sign=Sign.EMPTY;
+        position = new Point(x, y);
+        sign = Sign.EMPTY;
+    }
+
+    public Field(Point p) {
+        position = p;
     }
 
     @Override
     public String toString() {
-        return position.x+"x"+position.y+" - "+sign;
+        return position.x + "x" + position.y + " - " + sign;
     }
 
     public void markShip() {
         sign = Sign.SHIP;
     }
-    public boolean isAdjacent(Field otherField){
-        return (Math.abs(position.x-otherField.position.x)<=1 &&
-                Math.abs(position.y-otherField.position.y)<=1);
+
+    public boolean isAdjacent(Field otherField) {
+        return (Math.abs(position.x - otherField.position.x) <= 1 &&
+                Math.abs(position.y - otherField.position.y) <= 1);
     }
-    public List<Point> getAdjacentPositions(){
+
+    public List<Point> getAdjacentPositions(BoardSize boardSize) {
         List<Point> list = new ArrayList<>();
         int a = AdjacencyRules.ADJACENCY_DISTANCE;
-        for (int x = -a; x <= a; x++) {
-            for (int y =-a; y <= a; y++) {
-                list.add(new Point(x,y));
+        Point adjacentPoint;
+        for (int i = -a; i <= a; i++) {
+            for (int j = -a; j <= a; j++) {
+                adjacentPoint = new Point(position.x+i,position.y+j);
+                if (isPositionValid(boardSize.size, adjacentPoint))
+                    list.add(adjacentPoint);
             }
         }
         list.remove(position);
         return list;
+    }
+    public boolean isPositionValid(int size, Point p){
+        return !(p.y>size-1 || p.y<0 || p.x>size-1 || p.x<0);
     }
 
     @Override
@@ -52,7 +65,7 @@ public final class Field implements Comparable {
 
         Field field = (Field) o;
 
-        return (position.x==field.position.x && position.y==field.position.y);
+        return (position.x == field.position.x && position.y == field.position.y);
     }
 
     @Override
@@ -64,20 +77,22 @@ public final class Field implements Comparable {
     public int compareTo(Object o) {
         if (!o.getClass().equals(getClass())) return -1;
         Field f = (Field) o;
-        double vector1 = Math.round(Math.sqrt(position.x*position.x+position.y*position.y))*100;
-        double vector2 = Math.round(Math.sqrt(f.position.x*f.position.x+f.position.y*f.position.y))*100;
-        return (int) Math.round(vector1-vector2);
+        double vector1 = Math.round(Math.sqrt(position.x * position.x + position.y * position.y)) * 100;
+        double vector2 = Math.round(Math.sqrt(f.position.x * f.position.x + f.position.y * f.position.y)) * 100;
+        return (int) Math.round(vector1 - vector2);
     }
 
-    public boolean hasShip(){
-        return sign==Sign.SHIP;
+    public boolean hasShip() {
+        return sign == Sign.SHIP;
     }
-    public boolean markHit(){
-        sign=Sign.HIT;
+
+    public boolean markHit() {
+        sign = Sign.HIT;
         return true;
     }
-    public boolean markMiss(){
-        sign=Sign.MISS;
+
+    public boolean markMiss() {
+        sign = Sign.MISS;
         return true;
     }
 
@@ -86,15 +101,18 @@ public final class Field implements Comparable {
     }
 
     public static int compareToX(Field field, Field otherField) {
-        return field.position.x-otherField.position.x;
+        return field.position.x - otherField.position.x;
     }
+
     public static int compareToY(Field field, Field otherField) {
-        return field.position.y-otherField.position.y;
+        return field.position.y - otherField.position.y;
     }
-    public int getPositionX(){
+
+    public int getPositionX() {
         return position.x;
     }
-    public int getPositionY(){
+
+    public int getPositionY() {
         return position.y;
     }
 }

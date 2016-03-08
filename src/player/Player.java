@@ -11,6 +11,7 @@ import rules.ShipSettings;
 import rules.Shoot;
 
 import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public class Player {
@@ -26,13 +27,41 @@ public class Player {
 
     public boolean placeShip(Ship ship, Field... fields) {
         if (fleet.canBePlacedOnBoard(ship,fields)) {
-            Field[] fromFieldsList = new Field[fields.length];
-            for (int i = 0; i < fields.length; i++) {
-                fromFieldsList[i] = board.get(fields[i]);
-            }
-            return fleet.placeShip(ship, fromFieldsList);
+            List<Field> fromFieldsList = replaceFields(fields);
+            Set<Field> adjacentFields = adjacentFields(fromFieldsList);
+            return fleet.placeShip(ship, fromFieldsList, adjacentFields);
         }
         return false;
+    }
+
+    private List<Field> replaceFields(Field[] fields) {
+        List<Field> fieldsList = new ArrayList<>();
+        for (int i = 0; i < fields.length; i++) {
+            fieldsList.add(board.get(fields[i]));
+        }
+        return fieldsList;
+    }
+
+    private Set<Field> adjacentFields(List<Field> fields){
+        Set<Field> set = new HashSet<>();
+        for (Field f:fields){
+            set.addAll(findInBoard(f));
+        }
+        removeFrom(set, fields);
+        return set;
+    }
+
+    private void removeFrom(Set<Field> base, List<Field> removeList) {
+        for (Field f:removeList)
+            base.remove(f);
+    }
+
+    private List<Field> findInBoard(Field f){
+        List<Point> points = f.getAdjacentPositions(board.boardSize);
+        List<Field> fields = new ArrayList<>();
+        for (Point p:points)
+            fields.add(board.get(new Field(p)));
+        return fields;
     }
 
     public boolean shoot(Point point) {

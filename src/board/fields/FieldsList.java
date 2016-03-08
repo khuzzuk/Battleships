@@ -5,9 +5,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-/**
- * Created by adrabik on 24.02.16.
- */
 public class FieldsList {
     private Set<Field> fieldList;
 
@@ -31,7 +28,7 @@ public class FieldsList {
                 return currentField;
             }
         }
-        throw new NoSuchElementException("Nie znaleziono pola");
+        throw new NoSuchElementException("Can't find field " + field);
     }
     public boolean hasShip(Field field){
         return get(field).hasShip();

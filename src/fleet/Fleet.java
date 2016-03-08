@@ -4,6 +4,7 @@ import board.fields.Field;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Fleet {
     ArrayList<Ship> shipsList;
@@ -14,10 +15,10 @@ public class Fleet {
             shipsList.add(new Ship(st));
         }
     }
-    public boolean placeShip(Ship ship, Field... shipFields){
+    public boolean placeShip(Ship ship, List<Field> shipFields, Set<Field> adjacentFields){
             for (int x=0; x<shipsList.size(); x++) {
                 if (shipsList.get(x).equals(ship)){
-                    assignFields(ship, shipFields);
+                    assignFields(ship, shipFields, adjacentFields);
                     shipsList.set(x, ship);
                     return true;
                 }
@@ -48,7 +49,7 @@ public class Fleet {
     }
 
     public boolean canBePlacedOnBoard(Ship ship, Field... fields){
-        assignFields(ship, fields); //// TODO: 2/26/2016 Make method canBePlacedWith of Ship class to accept also fields, not ship only
+        assignFields(ship, fields); // TODO: 2/26/2016 Make method canBePlacedWith of Ship class to accept also fields, not ship only
         for (Ship s : shipsList) {
             if (!ship.canBePlacedWith(s)) {
                 ship.clearFields();
@@ -61,6 +62,10 @@ public class Fleet {
 
     private void assignFields(Ship ship, Field[] fields) {
         ship.addFieldsFromBoard(fields);
+    }
+    private void assignFields(Ship ship, List<Field> fields, Set<Field> adjacentFields){
+        ship.addFieldsFromBoard(fields);
+        ship.addAdjacentFields(adjacentFields);;
     }
 
     public Ship getFirstFree(){

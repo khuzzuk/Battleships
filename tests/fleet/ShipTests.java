@@ -4,6 +4,9 @@ import board.fields.Field;
 import board.fields.Sign;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ShipTests {
@@ -26,11 +29,14 @@ public class ShipTests {
         Ship firstShip = new Ship(ShipType.DD);
         Ship secondShip = new Ship(ShipType.DD);
         firstShip.addFieldsFromBoard(new Field(0,1,Sign.EMPTY), new Field(1,1,Sign.EMPTY));
+        Set<Field> adjacent = new HashSet<>();
+        adjacent.add(new Field(2,1));
+        firstShip.addAdjacentFields(adjacent);
         secondShip.addFieldsFromBoard(new Field(2,1,Sign.EMPTY), new Field(3,1,Sign.EMPTY));
         //when
         boolean canBePlaced = firstShip.canBePlacedWith(secondShip);
         //then
-        assertThat(canBePlaced).isTrue();
+        assertThat(canBePlaced).isFalse();
     }
 
     @Test

@@ -4,6 +4,11 @@ import board.fields.Field;
 import org.testng.annotations.Test;
 import rules.ShipSettings;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FleetTests {
@@ -23,7 +28,9 @@ public class FleetTests {
         //given
         Fleet fleet = new Fleet(ShipSettings.startingShipList());
         Ship ship = new Ship(ShipType.SS);
-        fleet.placeShip(ship, new Field(1,1));
+        List<Field> fields = new ArrayList<>();
+        fields.add(new Field(1,1));
+        fleet.placeShip(ship, fields, new HashSet<>());
         fleet.shootShip(new Field(1,1));
         int expectedFleetSize = 9;
         //when

@@ -2,6 +2,9 @@ package fleet;
 
 import board.fields.Field;
 
+import java.util.List;
+import java.util.Set;
+
 public class Ship implements PlaceableOnBoard {
     private ShipType type;
     private ShipFieldsList fields;
@@ -19,8 +22,21 @@ public class Ship implements PlaceableOnBoard {
         }
         else throw new IllegalArgumentException("Ship has "+shipFields.length+" fields. This type should have "+type.shipLength+" fields.");
     }
+    public void addFieldsFromBoard(List<Field> shipFields) throws IllegalArgumentException {
+        if (shipFields.size()==type.shipLength){
+            for (Field f:shipFields) {
+                fields.add(f);
+                f.markShip();
+            }
+        }
+        else throw new IllegalArgumentException("Ship has "+shipFields.size()+" fields. This type should have "+type.shipLength+" fields.");
+    }
+    public void addAdjacentFields(Set<Field> adjacentFields){
+        fields.addAdjacentFields(adjacentFields);
+    }
 
     public boolean canBePlacedWith(PlaceableOnBoard otherShip){
+        if (otherShip.getClass()!=Ship.class) return true;
         Ship toCompare = (Ship) otherShip;
         return fields.canBePlacedWith(toCompare.fields);
     }
