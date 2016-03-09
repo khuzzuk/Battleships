@@ -8,13 +8,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-/**
- * Created by adrabik on 22.02.16.
- */
 public class CruiserButton extends ShipButton {
     public CruiserButton(Point point) {
-        super(point);
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *3+1, PlaceableItem.ITEM_SIZE+1);
+        super(point, 3);
         relocate(position);
     }
 

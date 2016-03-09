@@ -13,7 +13,7 @@ public class Board {
     public Board(BoardSize boardSize) {
         boardDimension = new Dimension(boardSize.size, boardSize.size);
         this.boardSize = boardSize;
-        fieldsList = new FieldsList(boardSize.size);
+        fieldsList = new FieldsList(boardSize);
     }
 
     @Override
@@ -49,5 +49,9 @@ public class Board {
 
     public FieldsList getFieldsList() {
         return fieldsList;
+    }
+
+    public BoardSize getBoardSize() {
+        return new BoardSize(boardSize);
     }
 }

@@ -7,4 +7,8 @@ public class BoardSize {
     public BoardSize(int boardSize) {
         this.size = boardSize;
     }
+
+    public BoardSize(BoardSize boardSize) {
+        size = boardSize.size;
+    }
 }

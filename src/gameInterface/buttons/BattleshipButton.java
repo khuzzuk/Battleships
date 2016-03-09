@@ -8,15 +8,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
-/**
- * Created by adrabik on 22.02.16.
- */
 public class BattleshipButton extends ShipButton {
     public BattleshipButton(Point point) {
-        super(point);
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *4+1, PlaceableItem.ITEM_SIZE+1);
+        super(point, 4);
         relocate(position);
     }
+
 
     @Override
     public void placeOnBoard(Point point) {
@@ -31,5 +28,11 @@ public class BattleshipButton extends ShipButton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void resize(int boardSize) {
+        setShipSize();
+        super.resize(boardSize);
     }
 }

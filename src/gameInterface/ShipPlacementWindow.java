@@ -1,32 +1,34 @@
 package gameInterface;
 
-import board.fields.Field;
 import fleet.Ship;
 import game.Game;
 import gameInterface.Dialogs.DisclosureDialog;
+import gameInterface.Dialogs.InterfaceSizeDialog;
 import gameInterface.buttons.EmptyFieldButton;
-import gameInterface.buttons.PlaceableItem;
+import gameInterface.buttons.VisibleItem;
 import gameInterface.buttons.ShipButton;
-import messagingHandler.GameAdapter;
 import messagingHandler.MessageSender;
 import messagingHandler.Messages.*;
 import messagingHandler.Subscribers.Subscriber;
 import player.Player;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static messagingHandler.MessageSender.send;
 
-public class ShipPlacementWindow <T extends Message> extends JFrame implements ClosableWindow, Subscriber<T> {
+public class ShipPlacementWindow <T extends Message> extends JFrame implements TerminationWindow, Subscriber<T> {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
     protected EmptyFieldButton[][] buttons;
+    protected List<ShipButton> ships;
     protected Dimension windowSize;
     protected JPanel panel;
     protected Game game;
-    protected Field[] fieldsFromBoard;
 
     public ShipPlacementWindow(Game game, Player player) {
         super();
@@ -38,12 +40,39 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
         this.player = player;
         this.game = game;
         closingDefinition(this);
-        boardSize = new Dimension(10,10);
-        windowSize = new Dimension(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE*6, boardSize.height*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE);
+        boardSize = new Dimension(player.getBoardSize().size, player.getBoardSize().size);
+        ships = new ArrayList<>();
+        defineWindowSize();
+        addMenu();
         preparePanel();
         addFields();
-        setSize(windowSize);
         setLocationRelativeTo(null);
+    }
+
+    private void defineWindowSize() {
+        windowSize = new Dimension(boardSize.width* VisibleItem.itemSize + VisibleItem.itemSize *6, boardSize.height* VisibleItem.itemSize + VisibleItem.itemSize);
+        setSize(windowSize);
+    }
+
+    private void preparePanel() {
+        panel = new JPanel(null);
+        panel.setOpaque(true);
+        panel.setSize(windowSize);
+    }
+    private void addMenu(){
+        JMenuBar menuBar = new JMenuBar();
+        JMenu optionsMenu = new JMenu("options");
+        menuBar.add(optionsMenu);
+        JMenuItem setSize = new JMenuItem("set size");
+        addActionToOptionsButton(setSize);
+        optionsMenu.add(setSize);
+        setJMenuBar(menuBar);
+    }
+    private void addActionToOptionsButton(JMenuItem item){
+        item.addActionListener((event)->{
+            InterfaceSizeDialog dialog = new InterfaceSizeDialog();
+            dialog.setVisible(true);
+        });
     }
 
     protected void showNextShip(Ship ship){
@@ -53,18 +82,19 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     }
 
     protected void addShip(Ship ship) {
-        Point startingPoint = new Point(boardSize.width*PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE);
+        Point startingPoint = new Point(boardSize.width* VisibleItem.itemSize + VisibleItem.itemSize, VisibleItem.itemSize);
         ShipButton button = ShipButton.getShipButton(ship, startingPoint);
         int componentCount = panel.getComponentCount();
         if (componentCount==0) panel.add(button);
         else panel.add(button, 0);
+        ships.add(button);
     }
 
     private void addFields() {
         buttons = new EmptyFieldButton[boardSize.width][boardSize.height];
         for (int x=0; x<boardSize.width; x++){
             for (int y = 0; y < boardSize.height; y++) {
-                buttons[x][y] = new EmptyFieldButton(new Point(x*PlaceableItem.ITEM_SIZE,y*PlaceableItem.ITEM_SIZE));
+                buttons[x][y] = new EmptyFieldButton(new Point(x* VisibleItem.itemSize,y* VisibleItem.itemSize));
                 buttons[x][y].setFocusable(false);
                 panel.add(buttons[x][y]);
             }
@@ -72,21 +102,15 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
         add(panel);
     }
 
-    private void preparePanel() {
-        panel = new JPanel(null);
-        panel.setOpaque(true);
-        panel.setSize(windowSize);
-    }
-
     public Point getNearestFieldLocation(Point point, Dimension size){
         int buttonX;
         int buttonY;
         for (int x = 0; x < buttons.length; x++) {
             buttonX=buttons[x][0].getBounds().x;
-            if (Math.abs(buttonX-point.x)<PlaceableItem.ITEM_SIZE && isInBoardRange(size.width,x)){
+            if (Math.abs(buttonX-point.x)< VisibleItem.itemSize && isInBoardRange(size.width,x)){
                 for (int y = 0; y < buttons[x].length; y++) {
                     buttonY=buttons[x][y].getBounds().y;
-                    if (Math.abs(point.y-buttonY)<PlaceableItem.ITEM_SIZE && isInBoardRange(size.height,y)){
+                    if (Math.abs(point.y-buttonY)< VisibleItem.itemSize && isInBoardRange(size.height,y)){
                         return buttons[x][y].getLocation();
                     }
                 }
@@ -96,7 +120,7 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     }
 
     private boolean isInBoardRange(int counterWidth, int fieldPosition) {
-        int counterMaxPosition = counterWidth/PlaceableItem.ITEM_SIZE;
+        int counterMaxPosition = counterWidth/ VisibleItem.itemSize;
         return counterMaxPosition+fieldPosition<=boardSize.width;
     }
 
@@ -140,5 +164,17 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements C
     }
     public void receiveMessage(WrongShipPositionMessage message){
         returnLastShip();
+    }
+
+    public void remake() {
+        defineWindowSize();
+        for (int x = 0; x < boardSize.width; x++) {
+            for (int y = 0; y < boardSize.height; y++) {
+                buttons[x][y].relocate(new Point(x* VisibleItem.itemSize,y* VisibleItem.itemSize));
+            }
+        }
+        for (ShipButton b : ships){
+            b.resize(boardSize.width);
+        }
     }
 }

@@ -11,22 +11,22 @@ import java.awt.geom.GeneralPath;
 
 public class FieldButton extends JButton implements RenderingOptions {
     private Sign sign;
-    private static Rectangle rectangle = new Rectangle(0,0,PlaceableItem.ITEM_SIZE, PlaceableItem.ITEM_SIZE);
+    private static Rectangle rectangle = new Rectangle(0,0, VisibleItem.itemSize, VisibleItem.itemSize);
     private static GeneralPath xSign = getxSign();
 
     private static GeneralPath getxSign() {
         GeneralPath g = new GeneralPath();
         g.moveTo(0,0);
-        g.lineTo(PlaceableItem.ITEM_SIZE,PlaceableItem.ITEM_SIZE);
-        g.moveTo(PlaceableItem.ITEM_SIZE,0);
-        g.lineTo(0,PlaceableItem.ITEM_SIZE);
+        g.lineTo(VisibleItem.itemSize, VisibleItem.itemSize);
+        g.moveTo(VisibleItem.itemSize,0);
+        g.lineTo(0, VisibleItem.itemSize);
         return g;
     }
 
     public FieldButton(Field field, int x, int y) {
         super();
         sign = field.getStatus();
-        int menuSize = PlaceableItem.ITEM_SIZE+2;
+        int menuSize = VisibleItem.itemSize +2;
         setBounds(x*menuSize, y*menuSize, menuSize,menuSize);
     }
     public boolean isFieldUsable(){
@@ -57,7 +57,7 @@ public class FieldButton extends JButton implements RenderingOptions {
             g2.fill(rectangle);
             g2.setColor(Color.BLACK);
             g2.draw(rectangle);
-            int size = PlaceableItem.ITEM_SIZE;
+            int size = VisibleItem.itemSize;
             g2.fill(new Ellipse2D.Float(size/3,size/3,size/2,size/2));
         }
     }

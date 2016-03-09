@@ -73,7 +73,7 @@ public class Player {
     }
 
     public BoardSize getBoardSize() {
-        return board.boardSize;
+        return board.getBoardSize();
     }
 
     public FieldsList fieldsList() {

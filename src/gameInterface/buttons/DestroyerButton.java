@@ -13,9 +13,7 @@ import java.io.IOException;
  */
 public class DestroyerButton extends ShipButton {
     public DestroyerButton(Point point) {
-        super(point);
-        loadImage();
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE *2+1, PlaceableItem.ITEM_SIZE+1);
+        super(point, 2);
         relocate(position);
     }
 

@@ -1,5 +1,7 @@
 package board.fields;
 
+import board.BoardSize;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,10 +10,10 @@ import java.util.Set;
 public class FieldsList {
     private Set<Field> fieldList;
 
-    public FieldsList(int size) {
-        fieldList = new HashSet<>(size);
-        for (int x = 0; x < size * size; x++) {
-            fieldList.add(new Field(x%10, x/10));
+    public FieldsList(BoardSize boardSize) {
+        fieldList = new HashSet<>(boardSize.size);
+        for (int x = 0; x < Math.pow(boardSize.size,2); x++) {
+            fieldList.add(new Field(x%boardSize.size, x/boardSize.size));
         }
     }
 

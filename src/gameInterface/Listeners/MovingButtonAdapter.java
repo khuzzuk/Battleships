@@ -1,7 +1,7 @@
 package gameInterface.Listeners;
 
 import gameInterface.ShipPlacementWindow;
-import gameInterface.buttons.PlaceableItem;
+import gameInterface.buttons.VisibleItem;
 import gameInterface.buttons.ShipButton;
 
 import javax.swing.event.MouseInputAdapter;
@@ -34,8 +34,8 @@ public class MovingButtonAdapter extends MouseInputAdapter {
         int buttonX = button.getBounds().x;
         int buttonY = button.getBounds().y;
         Dimension shipSize = button.getShipSize();
-        int buttonWidth = shipSize.width/2/(shipSize.width/PlaceableItem.ITEM_SIZE);
-        int buttonHeight = shipSize.height/2/(shipSize.height/PlaceableItem.ITEM_SIZE);
+        int buttonWidth = shipSize.width/2/(shipSize.width/ VisibleItem.itemSize);
+        int buttonHeight = shipSize.height/2/(shipSize.height/ VisibleItem.itemSize);
         Point shipLocation = new Point(
                 buttonX+buttonWidth ,
                 buttonY+ buttonHeight );

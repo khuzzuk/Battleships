@@ -6,13 +6,13 @@ import board.fields.FieldsList;
 import game.Game;
 import gameInterface.Listeners.ShootListener;
 import gameInterface.buttons.FieldButton;
-import gameInterface.buttons.PlaceableItem;
+import gameInterface.buttons.VisibleItem;
 import player.Player;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardWindow extends JFrame implements ClosableWindow {
+public class BoardWindow extends JFrame implements TerminationWindow {
     public static BoardWindow boardWindow;
     private final Game game;
     private JPanel panel1, panel2;
@@ -28,8 +28,8 @@ public class BoardWindow extends JFrame implements ClosableWindow {
         boardSize = player1.getBoardSize();
         boardWindow = this;
         preparePanel();
-        int windowSize = boardSize.size* PlaceableItem.ITEM_SIZE+PlaceableItem.ITEM_SIZE;
-        setSize(new Dimension(windowSize, windowSize+PlaceableItem.ITEM_SIZE/2));
+        int windowSize = boardSize.size* VisibleItem.itemSize + VisibleItem.itemSize;
+        setSize(new Dimension(windowSize, windowSize+ VisibleItem.itemSize /2));
     }
     private void preparePanel(){
         panel1 = new JPanel(null);

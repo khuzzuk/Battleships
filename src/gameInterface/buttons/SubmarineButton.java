@@ -13,9 +13,7 @@ import java.io.IOException;
  */
 public class SubmarineButton extends ShipButton {
     public SubmarineButton(Point point) {
-        super(point);
-        loadImage();
-        shipSize = new Dimension(PlaceableItem.ITEM_SIZE+1, PlaceableItem.ITEM_SIZE+1);
+        super(point, 1);
         relocate(position);
     }
 

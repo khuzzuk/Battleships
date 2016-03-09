@@ -1,5 +1,6 @@
 package gameInterface.Dialogs;
 
+import gameInterface.TerminationWindow;
 import messagingHandler.MessageSender;
 import messagingHandler.Messages.BoardSizeDecided;
 
@@ -8,17 +9,23 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
 
-public class StartingDialog extends JDialog implements GridLayoutSettings {
+public class StartingDialog extends JDialog implements GridLayoutSettings, TerminationWindow {
 
     private JFormattedTextField textField;
 
     public StartingDialog() {
         super();
+        closingDefinition(this);
         try {
-            JPanel panel = setupJPanel();
+            JPanel panel = PanelModification.PreparePanel((JPanel) getContentPane());
             GridBagConstraints constr = setupConstraints();
             addLabel(panel, constr);
-            addTextField(panel, constr);
+            JFormattedTextField textField = PanelModification.addTextField(this, panel, constr);
+            textField.addActionListener(e -> {
+                int boardSize = Integer.parseInt(textField.getValue().toString());
+                MessageSender.send(new BoardSizeDecided(boardSize));
+                dispose();
+            });
             pack();
             setLocationRelativeTo(null);
         } catch (ParseException e) {
@@ -26,22 +33,8 @@ public class StartingDialog extends JDialog implements GridLayoutSettings {
         }
     }
 
-    private void addTextField(JPanel panel, GridBagConstraints constr) throws ParseException {
-        textField = new JFormattedTextField(new MaskFormatter("##"));
-        textField.addActionListener(e -> {
-            System.out.println(textField.getValue().toString());
-            int boardSize = Integer.parseInt(textField.getValue().toString());
-            dispose();
-            MessageSender.send(new BoardSizeDecided(boardSize));
-        });
-        constr.gridy++;
-        panel.add(textField,constr);
-    }
-
     private void addLabel(JPanel panel, GridBagConstraints constr) {
         JLabel label = new JLabel("Welcome in the Battleships game.");
-        constr.gridy=0;
-        constr.gridx=0;
         panel.add(label,constr);
         JLabel secondLabel = new JLabel("Please, decide about board size.");
         constr.gridy++;
@@ -49,12 +42,5 @@ public class StartingDialog extends JDialog implements GridLayoutSettings {
         JLabel thirdLabel = new JLabel("Type a number and press enter.");
         constr.gridy++;
         panel.add(thirdLabel,constr);
-    }
-
-    private JPanel setupJPanel() {
-        JPanel panel = (JPanel) getContentPane();
-        GridBagLayout mainLayout = new GridBagLayout();
-        panel.setLayout(mainLayout);
-        return panel;
     }
 }
