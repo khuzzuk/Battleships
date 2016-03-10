@@ -25,6 +25,8 @@ public class FieldButton extends JButton implements RenderingOptions {
 
     public FieldButton(Field field, int x, int y) {
         super();
+        xSign = getxSign();
+        rectangle = new Rectangle(0,0, VisibleItem.itemSize, VisibleItem.itemSize);
         sign = field.getStatus();
         int menuSize = VisibleItem.itemSize +2;
         setBounds(x*menuSize, y*menuSize, menuSize,menuSize);

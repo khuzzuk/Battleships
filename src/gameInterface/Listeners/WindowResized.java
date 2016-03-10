@@ -1,14 +1,18 @@
 package gameInterface.Listeners;
 
+import gameInterface.ScallableWindow;
 import gameInterface.ShipPlacementWindow;
 import gameInterface.buttons.VisibleItem;
 
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class WindowResized implements ComponentListener{
     private int boardSize;
     private int additionalSpace = 0;
+    private int additionalHeight = 0;
+    private int additionalWidth = 0;
 
     public WindowResized(int boardSize) {
         this.boardSize = boardSize;
@@ -19,13 +23,19 @@ public class WindowResized implements ComponentListener{
         this.additionalSpace = additionalSpace;
     }
 
+    public WindowResized(int boardSize, int additionalHeight, int additionalWidth) {
+        this.boardSize = boardSize;
+        this.additionalHeight = additionalHeight;
+        this.additionalWidth = additionalWidth;
+    }
+
     @Override
     public void componentResized(ComponentEvent e) {
         int width = e.getComponent().getWidth();
         int height = e.getComponent().getHeight();
-        VisibleItem.setItemSize(Math.min(width/(boardSize+additionalSpace), (height-35)/(boardSize)));
-        if (e.getComponent() instanceof ShipPlacementWindow){
-            ShipPlacementWindow window = (ShipPlacementWindow)e.getComponent();
+        VisibleItem.setItemSize(Math.min((width-additionalWidth)/(boardSize+additionalSpace), (height-35-additionalHeight)/(boardSize)));
+        if (e.getComponent() instanceof ScallableWindow){
+            ScallableWindow window = (ScallableWindow)e.getComponent();
             window.remake();
         }
     }

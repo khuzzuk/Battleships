@@ -21,7 +21,7 @@ import java.util.List;
 
 import static messagingHandler.MessageSender.send;
 
-public class ShipPlacementWindow <T extends Message> extends JFrame implements TerminationWindow, Subscriber<T>, ScalableWindow {
+public class ShipPlacementWindow <T extends Message> extends JFrame implements TerminationWindow, Subscriber<T>, ScallableWindow {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
@@ -163,6 +163,7 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements T
 
     public void receiveMessage(NextShipPlaceMessage nextShipToPlaceAction) {
         showNextShip(nextShipToPlaceAction.getShip());
+        remake();
     }
     public void receiveMessage(WrongShipPositionMessage message){
         returnLastShip();

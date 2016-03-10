@@ -5,14 +5,17 @@ import board.fields.Field;
 import board.fields.FieldsList;
 import game.Game;
 import gameInterface.Listeners.ShootListener;
+import gameInterface.Listeners.WindowResized;
 import gameInterface.buttons.FieldButton;
 import gameInterface.buttons.VisibleItem;
+import messagingHandler.MessageSender;
+import messagingHandler.Messages.CallResizeBoardWindow;
 import player.Player;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardWindow extends JFrame implements TerminationWindow, ScalableWindow {
+public class BoardWindow extends JFrame implements TerminationWindow, ScallableWindow {
     public static BoardWindow boardWindow;
     private final Game game;
     private JPanel panel1, panel2;
@@ -30,6 +33,7 @@ public class BoardWindow extends JFrame implements TerminationWindow, ScalableWi
         preparePanel();
         int windowSize = boardSize.size* VisibleItem.itemSize + VisibleItem.itemSize;
         setSize(new Dimension(windowSize, windowSize+ VisibleItem.itemSize /2));
+        addComponentListener(new WindowResized(boardSize.size, 30, 30));
     }
     private void preparePanel(){
         panel1 = new JPanel(null);
@@ -63,5 +67,6 @@ public class BoardWindow extends JFrame implements TerminationWindow, ScalableWi
 
     @Override
     public void remake() {
+        MessageSender.send(new CallResizeBoardWindow(this));
     }
 }

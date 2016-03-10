@@ -1,5 +1,5 @@
 package gameInterface;
 
-public interface ScalableWindow {
+public interface ScallableWindow {
     void remake();
 }
