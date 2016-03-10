@@ -4,6 +4,7 @@ import fleet.Ship;
 import game.Game;
 import gameInterface.Dialogs.DisclosureDialog;
 import gameInterface.Dialogs.InterfaceSizeDialog;
+import gameInterface.Listeners.WindowResized;
 import gameInterface.buttons.EmptyFieldButton;
 import gameInterface.buttons.VisibleItem;
 import gameInterface.buttons.ShipButton;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static messagingHandler.MessageSender.send;
 
-public class ShipPlacementWindow <T extends Message> extends JFrame implements TerminationWindow, Subscriber<T> {
+public class ShipPlacementWindow <T extends Message> extends JFrame implements TerminationWindow, Subscriber<T>, ScalableWindow {
     public static ShipPlacementWindow shipPlacementWindow;
     private final Player player;
     protected final Dimension boardSize;
@@ -43,10 +44,11 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements T
         boardSize = new Dimension(player.getBoardSize().size, player.getBoardSize().size);
         ships = new ArrayList<>();
         defineWindowSize();
-        addMenu();
+        //addMenu();
         preparePanel();
         addFields();
         setLocationRelativeTo(null);
+        setComponentListener();
     }
 
     private void defineWindowSize() {
@@ -167,7 +169,7 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements T
     }
 
     public void remake() {
-        defineWindowSize();
+        //defineWindowSize();
         for (int x = 0; x < boardSize.width; x++) {
             for (int y = 0; y < boardSize.height; y++) {
                 buttons[x][y].relocate(new Point(x* VisibleItem.itemSize,y* VisibleItem.itemSize));
@@ -176,5 +178,12 @@ public class ShipPlacementWindow <T extends Message> extends JFrame implements T
         for (ShipButton b : ships){
             b.resize(boardSize.width);
         }
+        remove(panel);
+        add(panel,getComponentCount()-1);
+        repaint();revalidate();
+    }
+
+    private void setComponentListener(){
+        addComponentListener(new WindowResized(boardSize.width, 7));
     }
 }

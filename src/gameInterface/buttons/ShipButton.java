@@ -110,9 +110,13 @@ public abstract class ShipButton extends JButton {
 
     public void resize(int boardSize) {
         setShipSize();
-        if (pointsOnBoard != null)
+        originalPosition = new Point((boardSize+1) * VisibleItem.itemSize, VisibleItem.itemSize);
+        if (pointsOnBoard != null) {
             relocate(new Point(pointsOnBoard[0].x * VisibleItem.itemSize, pointsOnBoard[0].y * VisibleItem.itemSize));
-        else relocate(new Point(boardSize*VisibleItem.itemSize + VisibleItem.itemSize, VisibleItem.itemSize));
+        }
+        else {
+            returnToOriginalPosition();
+        }
     }
 
     public Dimension getShipSize() {
@@ -163,7 +167,11 @@ public abstract class ShipButton extends JButton {
     @Override
     protected void paintBorder(Graphics g) {
     }
+
     protected void setShipSize() {
-        shipSize = new Dimension(VisibleItem.itemSize *numberOfShipFields+1, VisibleItem.itemSize +1);
+        if (orientation == Orientation.HORIZONTAL)
+            shipSize = new Dimension(VisibleItem.itemSize * numberOfShipFields + 1, VisibleItem.itemSize + 1);
+        else
+            shipSize = new Dimension(VisibleItem.itemSize + 1, VisibleItem.itemSize * numberOfShipFields + 1);
     }
 }

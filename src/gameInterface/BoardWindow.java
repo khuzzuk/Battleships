@@ -12,7 +12,7 @@ import player.Player;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardWindow extends JFrame implements TerminationWindow {
+public class BoardWindow extends JFrame implements TerminationWindow, ScalableWindow {
     public static BoardWindow boardWindow;
     private final Game game;
     private JPanel panel1, panel2;
@@ -59,5 +59,9 @@ public class BoardWindow extends JFrame implements TerminationWindow {
         setTitle("Gracz 1 strzela");
         remove(panel1);
         addFields(player2.fieldsList(),panel2, player2);
+    }
+
+    @Override
+    public void remake() {
     }
 }
