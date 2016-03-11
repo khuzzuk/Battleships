@@ -1,18 +1,18 @@
 package messagingHandler;
 
-import messagingHandler.Messages.HighPriorityMessage;
 import messagingHandler.Messages.Message;
+import messagingHandler.Messages.PriorityMessage;
 import messagingHandler.Messages.StartingMessage;
 import messagingHandler.Subscribers.Subscriber;
 import messagingHandler.Subscribers.SubscribersList;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class GameAdapter {
     private static final GameAdapter mainAdapter = new GameAdapter();
     private SubscribersList subscribers = new SubscribersList();
-    private BlockingQueue<Runnable> channel = new ArrayBlockingQueue<>(100);
+    private BlockingDeque<Runnable> channel = new LinkedBlockingDeque<>(100);
 
     public static GameAdapter getInstance() {
         return mainAdapter;
@@ -30,11 +30,16 @@ public class GameAdapter {
         channel.offer(new MessageActivator(m, subscribers));
         return this;
     }
-    public void offer(Message m){
-        if (m instanceof StartingMessage)
+
+    public void offer(Message m) {
+        if (m.getClass().isAnnotationPresent(PriorityMessage.class)) {
+            PriorityMessage.Priority p = m.getClass().getAnnotation(PriorityMessage.class).prt();
+            if (p == PriorityMessage.Priority.VERY_HIGH) subscribers.send(m);
+            if (p == PriorityMessage.Priority.HIGH) channel.offerFirst(new MessageActivator(m, subscribers));
+            else channel.offer(new MessageActivator(m, subscribers));
+        }
+        else if (m instanceof StartingMessage)
             initialize((StartingMessage) m);
-        else if (m instanceof HighPriorityMessage)
-            subscribers.send(m);
         else channel.offer(new MessageActivator(m, subscribers));
     }
 

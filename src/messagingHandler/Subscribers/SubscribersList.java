@@ -40,19 +40,19 @@ public class SubscribersList {
         }
     }
 
-    public List<Subscriber<?>> get(Class<?> typeOfMessage) {
+    private List<Subscriber<?>> get(Class<?> typeOfMessage) {
         return subscribers.get(typeOfMessage);
     }
 
     public void send(Message m) {
         synchronized (this){
-            if (m.getClass()==RemoveSubscriberMessage.class){
+            /*if (m.getClass()==RemoveSubscriberMessage.class){
                 receiveMessage((RemoveSubscriberMessage) m);
                 return;
-            }
+            }*/
             if (m instanceof Action) activateMessage((Action) m);
             List<Subscriber<?>> subsList = subscribers.get(m.getClass());
-            if (subsList==null) return;
+            if (subsList!=null)
             for (Subscriber sub : subsList) {
                 sendHelper(m, sub);
             }

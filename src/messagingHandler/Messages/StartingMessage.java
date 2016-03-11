@@ -3,7 +3,6 @@ package messagingHandler.Messages;
 import gameInterface.Dialogs.StartingDialog;
 import messagingHandler.Actions.Action;
 import messagingHandler.GameAdapter;
-
 public class StartingMessage implements Message, Action {
     public StartingMessage() {}
 

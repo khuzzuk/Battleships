@@ -1,6 +1,7 @@
 package messagingHandler.Messages;
 
-import messagingHandler.GameAdapter;
+import player.Player;
 
-public class FinishPlacingShipForPlayer implements HighPriorityMessage {
+@PriorityMessage(prt = PriorityMessage.Priority.HIGH)
+public class FinishPlacingShipForPlayer implements Message {
 }

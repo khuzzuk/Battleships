@@ -9,14 +9,14 @@ public class ShipSettings {
         ArrayList<ShipType> shipTypesList = new ArrayList<>();
         shipTypesList.add(ShipType.BB);
         shipTypesList.add(ShipType.CA);
-        shipTypesList.add(ShipType.CA);
+        /*shipTypesList.add(ShipType.CA);
         shipTypesList.add(ShipType.DD);
         shipTypesList.add(ShipType.DD);
         shipTypesList.add(ShipType.DD);
         shipTypesList.add(ShipType.SS);
         shipTypesList.add(ShipType.SS);
         shipTypesList.add(ShipType.SS);
-        shipTypesList.add(ShipType.SS);
+        shipTypesList.add(ShipType.SS);*/
         return shipTypesList;
     }
 }

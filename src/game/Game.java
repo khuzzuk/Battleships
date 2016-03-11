@@ -31,6 +31,7 @@ public class Game <T extends Message> implements Subscriber<T> {
         subscribe(ShipPlaced.class);
         subscribe(SwapPlayerPlacingShipMessage.class);
         subscribe(CallResizeBoardWindow.class);
+        subscribe(ShipPlacementWindowReady.class);
     }
 
     void setupGame(BoardSize boardSize) {
@@ -81,8 +82,8 @@ public class Game <T extends Message> implements Subscriber<T> {
     }
     private void swapPlacingShipPlayer(){
         if (currentPlayer.equals(playerOne)){
-            currentPlayer = playerTwo;
             send(new FinishPlacingShipForPlayer());
+            currentPlayer = playerTwo;
             send(new PlayerStartsPlacingShips(this,currentPlayer));
             send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
         }
@@ -124,10 +125,14 @@ public class Game <T extends Message> implements Subscriber<T> {
             receiveMessage((SwapPlayerPlacingShipMessage) message);
         else if (message.getClass()==CallResizeBoardWindow.class)
             receiveMessage((CallResizeBoardWindow) message);
+        else if (message.getClass()==ShipPlacementWindowReady.class)
+            receiveMessage((ShipPlacementWindowReady) message);
     }
     public void receiveMessage(BoardSizeDecided message){
         setupGame(message.getBoardSize());
         send(new PlayerStartsPlacingShips(this, currentPlayer));
+    }
+    public void receiveMessage(ShipPlacementWindowReady message){
         send(new NextShipPlaceMessage(nextShipToPlace(currentPlayer)));
     }
     public void receiveMessage(ShipPlaced message){
